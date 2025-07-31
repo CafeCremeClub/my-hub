@@ -9,7 +9,7 @@ const SignInForm = () => {
         >
             <div className="flex flex-col gap-3">
                 <p
-                    className="bricolage-grotesque font-semibold text-[#101828] text-3xl"
+                    className="bricolage-grotesque font-semibold text-[#101828] text-3xl tracking-tighter"
                 >
                     Bienvenue sur MyHub
                 </p>

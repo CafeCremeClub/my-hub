@@ -1,5 +1,5 @@
 import React from 'react';
-import {InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot} from "@/components/ui/input-otp";
+import {InputOTP, InputOTPGroup, InputOTPSlot} from "@/components/ui/input-otp";
 
 interface CustomOTPInputProps {
     value: string;
@@ -7,24 +7,27 @@ interface CustomOTPInputProps {
     maxLength?: number;
 }
 
-const CustomOtpInput = ({value, onChange, maxLength = 6}: CustomOTPInputProps) => {
+const CustomOtpInput = ({value, onChange, maxLength = 4}: CustomOTPInputProps) => {
     return (
         <InputOTP
             maxLength={maxLength}
             value={value}
             onChange={onChange}
         >
-            <InputOTPGroup>
-                <InputOTPSlot index={0}/>
-                <InputOTPSlot index={1}/>
-                <InputOTPSlot index={2}/>
-            </InputOTPGroup>
-            <InputOTPSeparator/>
-            <InputOTPGroup>
-                <InputOTPSlot index={3}/>
-                <InputOTPSlot index={4}/>
-                <InputOTPSlot index={5}/>
-            </InputOTPGroup>
+            {
+                Array.from({
+                    length: maxLength
+                }).map((_, i) => (
+                    <InputOTPGroup
+                        key={i}
+                    >
+                        <InputOTPSlot
+                            index={i}
+                            className="size-20 text-[#1B55F5] text-5xl font-medium !border-2 border-[#1734B6] !rounded-[0.625rem] active:!border-[#1734B6] active:ring-4 !ring-[#528BFF26]"
+                        />
+                    </InputOTPGroup>
+                ))
+            }
         </InputOTP>
     );
 };

@@ -35,7 +35,7 @@ const CustomInput = ({
             <Input
                 type={inputType}
                 className={cn(
-                    "cursor-pointer shadow-sm shadow-[#1018280D] h-[2.75rem] px-3.5 bg-white rounded-[0.5rem] text-[#1B55F5] text-sm focus:outline-none focus:!ring-0 placeholder:text-[#868C98] placeholder:text-sm",
+                    "cursor-pointer shadow-sm shadow-[#1018280D] h-[2.75rem] px-3.5 bg-white rounded-[0.5rem] text-[#1B55F5] text-sm focus:outline-none focus:!ring-0 placeholder:text-[#667085] placeholder:text-sm",
                     // Border styles, change if error
                     isError
                         ? "border border-[#DF1C41] focus:border-[#DF1C41]"
