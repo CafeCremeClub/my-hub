@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import SignUpForm from "@/components/auth/signup/SignUpForm";
 import SignUpOtp from "@/components/auth/signup/SignUpOtp";
+import SignUpSuccess from "@/components/auth/signup/SignUpSuccess";
 
 const SignUpPageContent = () => {
 
@@ -12,7 +13,7 @@ const SignUpPageContent = () => {
         case "email":
             return (
                 <SignUpForm
-                   onNext={() => setStep("otp")}
+                    onNext={() => setStep("otp")}
                 />
             );
         case "otp":
@@ -23,10 +24,7 @@ const SignUpPageContent = () => {
             );
         case "success":
             return (
-                <div className="flex flex-col items-center justify-center h-full">
-                    <h2 className="text-2xl font-bold mb-4">Registration Successful!</h2>
-                    <p>You can now log in to your account.</p>
-                </div>
+                <SignUpSuccess/>
             );
         default:
             return null;
