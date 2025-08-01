@@ -1,10 +1,52 @@
-import React from 'react';
+"use client"
+
+import React, {useState} from 'react';
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
+import Link from "next/link";
+import * as Yup from 'yup';
+import {useFormik} from "formik";
+import CustomOtpInput from "@/components/custom/CustomOTPInput";
+import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 
 const SignInForm = () => {
+
+    const [step, setStep] = useState<"email" | "otp">("email");
+
+
+    const validationSchema = Yup.object({
+        email: Yup.string()
+            .email('Adresse email invalide')
+            .required('L\'email est requis'),
+        otp: Yup.string()
+            .length(4, 'Le code OTP doit contenir 4 chiffres')
+            .matches(/^\d+$/, 'Le code OTP ne doit contenir que des chiffres')
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            otp: ''
+        },
+        validationSchema,
+        onSubmit: (values) => {
+            console.log('Form values:', values);
+            if (step === "email") {
+                setStep("otp");
+                formik.setFieldValue('step', 'otp');
+            } else {
+                // Final submission
+                console.log('Final submission:', {
+                    email: values.email,
+                    otp: values.otp
+                });
+            }
+        },
+    });
+
+
     return (
-        <form
+        <div
             className="w-full flex flex-col gap-8"
         >
             <div className="flex flex-col gap-3">
@@ -18,64 +60,70 @@ const SignInForm = () => {
                 </p>
             </div>
 
-            <div className="flex flex-col gap-6">
+            <form
+                className="flex flex-col gap-6"
+                onSubmit={formik.handleSubmit}
+            >
                 <div className="flex flex-col gap-5">
-                    <div className="flex flex-col gap-1.5">
-                        <label
-                            htmlFor="email"
-                            className="text-sm text-[#344054]"
-                        >
-                            Adresse e-mail
-                        </label>
-                        <CustomInput
-                            id="email"
-                            name="email"
-                            type="email"
-                        />
-                    </div>
-                    <div className="flex flex-col gap-1.5">
-                        <label
-                            htmlFor="password"
-                            className="text-sm text-[#344054]"
-                        >
-                            Mot de passe
-                        </label>
-                        <CustomInput
-                            id="password"
-                            name="password"
-                            type="password"
-                        />
-                    </div>
+                    {
+                        step === "email" ?
+                            <div className="flex flex-col gap-1.5">
+                                <label
+                                    htmlFor="email"
+                                    className="text-sm text-[#344054]"
+                                >
+                                    Adresse e-mail
+                                </label>
+                                <CustomInput
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    value={formik.values.email}
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                />
+                                {formik.touched.email && formik.errors.email && (
+                                    <CustomErrorIndicator
+                                        message={formik.errors.email}
+                                    />
+                                )}
+                            </div> :
+                            <div className="flex flex-col gap-1.5">
+                                <label
+                                    htmlFor="password"
+                                    className="text-sm text-[#344054]"
+                                >
+                                    Code envoyé par e-mail
+                                </label>
+                                <div className="flex justify-center">
+                                    <CustomOtpInput
+                                        value={formik.values.otp}
+                                        onChange={(value) => {
+                                            formik.setFieldValue('otp', value);
+                                        }}
+                                    />
+                                </div>
+                                {formik.touched.otp && formik.errors.otp && (
+                                    <CustomErrorIndicator
+                                        message={formik.errors.otp}
+                                    />
+                                )}
+                            </div>
+                    }
                 </div>
-
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="checkbox"
-                            id="remember-me"
-                            name="remember-me"
-                            className="size-3.5"
-                        />
-                        <p className="font-medium text-sm text-[#344054]">
-                            Rester connecté
-                        </p>
-                    </div>
-                    <p
-                        className="text-sm text-[#2970FF] font-semibold cursor-pointer hover:underline"
-                    >Mot de passe oublié</p>
-                </div>
-
                 <CustomButton
+                    type="submit"
                     className="bricolage-grotesque font-semibold"
                 >
-                    Se connecter
+                    {step === "email" ? "Se connecter" : "Vérifier"}
                 </CustomButton>
-            </div>
+            </form>
 
             <div className="flex justify-center items-center gap-1 text-sm text-[#475467]">
-                <p>Pas de compte ?</p> <b className="text-[#2970FF] cursor-pointer hover:underline">Inscris-toi</b>
+                <p>Pas de compte ?</p> <Link href="/auth/signup"
+                                             className="font-bold text-[#2970FF] cursor-pointer hover:underline">Inscris-toi</Link>
             </div>
-        </form>
+        </div>
     );
 };
 

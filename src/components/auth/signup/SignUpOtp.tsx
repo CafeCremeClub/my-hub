@@ -33,10 +33,12 @@ const SignUpOtp = ({onNext}: SignUpOtpProps) => {
             <form
                 className="flex flex-col gap-6 rounded-[0.75rem] px-10 py-8 bg-white shadow-lg shadow-[#1018280F]">
 
-                <CustomOtpInput
-                    value={value}
-                    onChange={setValue}
-                />
+                <div className="flex justify-center">
+                    <CustomOtpInput
+                        value={value}
+                        onChange={setValue}
+                    />
+                </div>
 
                 <CustomButton
                     type="button"

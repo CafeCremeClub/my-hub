@@ -3,6 +3,7 @@ import Image from "next/image";
 import {logo} from "../../../../public";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
+import Link from "next/link";
 
 interface SignUpFormProps {
     onNext: () => void;
@@ -44,21 +45,6 @@ const SignUpForm = ({onNext}: SignUpFormProps) => {
                     />
                 </div>
 
-                <div className="flex flex-col gap-1.5">
-                    <label
-                        htmlFor="confirm-email"
-                        className="text-sm text-[#344054]"
-                    >
-                        Confirme ton adresse email*
-                    </label>
-                    <CustomInput
-                        id="confirm-email"
-                        name="confirm-email"
-                        type="email"
-                        placeholder="mail@exemple.com"
-                    />
-                </div>
-
                 <CustomButton
                     type="button"
                     className="bricolage-grotesque font-semibold"
@@ -69,8 +55,9 @@ const SignUpForm = ({onNext}: SignUpFormProps) => {
             </form>
 
             <div className="flex justify-center items-center gap-1 text-sm text-[#475467]">
-                <p>As-tu déjà un compte ?</p> <b className="text-[#2970FF] cursor-pointer hover:underline">Connecte
-                toi</b>
+                <p>As-tu déjà un compte ?</p> <Link href="/auth/signin"
+                                                    className="font-bold text-[#2970FF] cursor-pointer hover:underline">Connecte
+                toi</Link>
             </div>
         </div>
     );
