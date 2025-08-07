@@ -31,7 +31,7 @@ const SignUpSuccess = () => {
             <CustomButton
                 type="button"
                 className="bricolage-grotesque font-semibold"
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/auth/onboarding")}
             >
                 Continuer
             </CustomButton>
