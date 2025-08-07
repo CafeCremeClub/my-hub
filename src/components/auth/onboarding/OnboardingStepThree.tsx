@@ -1,11 +1,16 @@
+"use client";
+
 import React from 'react';
 import {PiLinkSimpleBold} from "react-icons/pi";
 import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
-import {ImCoinEuro} from "react-icons/im";
 import CustomButton from "@/components/custom/CustomButton";
+import useOnboardingContext from "@/hooks/useOnboardingContext";
 
 const OnboardingStepThree = () => {
+
+    const {setStep} = useOnboardingContext();
+
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
             <div
@@ -57,6 +62,7 @@ const OnboardingStepThree = () => {
                     <CustomButton
                         type="button"
                         className="text-[#1B55F5] bg-white hover:bg-white hover:underline bricolage-grotesque font-semibold border-none shadow-none"
+                        onClick={() => setStep(2)}
                     >
                         Retour
                     </CustomButton>

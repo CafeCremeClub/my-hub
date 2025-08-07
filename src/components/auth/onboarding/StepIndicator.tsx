@@ -14,7 +14,7 @@ const StepIndicator = () => {
                 <div
                     key={stepNumber}
                     className={`w-[10px] h-[10px] rounded-full transition-colors duration-200 ${
-                        step >= stepNumber ? 'bg-[#1B55F5]' : 'bg-[#EAECF0]'
+                        step === stepNumber ? 'bg-[#1B55F5]' : 'bg-[#EAECF0]'
                     }`}
                 />
             ))}

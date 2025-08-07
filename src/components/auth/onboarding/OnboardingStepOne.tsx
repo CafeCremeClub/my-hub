@@ -1,11 +1,17 @@
+"use client";
+
 import React from 'react';
 import {FiUser} from "react-icons/fi";
 import CustomButton from "@/components/custom/CustomButton";
 import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
 import {Phone} from "lucide-react";
+import useOnboardingContext from "@/hooks/useOnboardingContext";
 
 const OnboardingStepOne = () => {
+
+    const {setStep} = useOnboardingContext();
+
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
             <div
@@ -73,6 +79,7 @@ const OnboardingStepOne = () => {
                 <CustomButton
                     type="submit"
                     className="bricolage-grotesque font-semibold"
+                    onClick={() => setStep(2)}
                 >
                     Continuer
                 </CustomButton>

@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import {TbUsersPlus} from "react-icons/tb";
 import {Label} from "@/components/ui/label";
@@ -5,8 +7,13 @@ import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
 import {ImCoinEuro} from "react-icons/im";
 import CustomTagInput from "@/components/custom/CustomTagInput";
+import CustomDragDropInput from "@/components/custom/CustomDragDropInput";
+import useOnboardingContext from "@/hooks/useOnboardingContext";
 
 const OnboardingStepTwo = () => {
+
+    const {setStep} = useOnboardingContext();
+
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
             <div
@@ -71,18 +78,29 @@ const OnboardingStepTwo = () => {
                             maxItems={3}
                         />
                     </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <CustomDragDropInput
+                            title="Déposes ton CV"
+                            acceptedFormats={["SVG", "PNG", "JPG", "JPEG", "PDF"]}
+                            maxSize={50}
+                        />
+                    </div>
+
                 </div>
 
                 <div className="flex flex-col gap-0.5">
                     <CustomButton
                         type="submit"
                         className="bricolage-grotesque font-semibold"
+                        onClick={() => setStep(3)}
                     >
-                        Je rejoins le Hub
+                        Continuer
                     </CustomButton>
                     <CustomButton
                         type="button"
                         className="text-[#1B55F5] bg-white hover:bg-white hover:underline bricolage-grotesque font-semibold border-none shadow-none"
+                        onClick={() => setStep(1)}
                     >
                         Retour
                     </CustomButton>

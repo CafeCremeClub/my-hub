@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import Image from "next/image";
 import {logo} from "../../../../public";
@@ -5,6 +7,7 @@ import {FiUser} from "react-icons/fi";
 import {TbUsersPlus} from "react-icons/tb";
 import Step from "@/components/auth/onboarding/Step";
 import {PiLinkSimpleBold} from "react-icons/pi";
+import useOnboardingContext from "@/hooks/useOnboardingContext";
 
 const steps = [
     {
@@ -29,6 +32,9 @@ const steps = [
 
 
 const OnboardingSidebar = () => {
+
+    const {step: currentStep} = useOnboardingContext();
+
     return (
         <div className="flex flex-col gap-20 col-span-1 px-8 py-7 bg-[#F9FAFB]">
             <Image
@@ -45,7 +51,7 @@ const OnboardingSidebar = () => {
                             title={step.title}
                             description={step.description}
                             icon={step.icon}
-                            isActive={step.id === 1}
+                            isActive={step.id === currentStep}
                             showLine={index < steps.length - 1}
                         />
                     ))
