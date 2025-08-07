@@ -50,7 +50,7 @@ const Sidebar = () => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const [selectedRoute, setSelectedRoute] = useState<string>(routes[0].name);
+    const [selectedRoute, setSelectedRoute] = useState<string>(routes[0].route);
 
     const onRoutePress = (name: string) => {
         /*if (isOpen && onClose) {
@@ -61,11 +61,11 @@ const Sidebar = () => {
     }
 
     useEffect(() => {
-        const currentRoute = routes.find(route => route.name === pathname);
+        const currentRoute = routes.find(route => route.route === pathname);
         if (currentRoute) {
-            setSelectedRoute(currentRoute.name);
+            setSelectedRoute(currentRoute.route);
         } else {
-            setSelectedRoute(routes[0].name);
+            setSelectedRoute(routes[0].route);
         }
     }, [pathname])
 
