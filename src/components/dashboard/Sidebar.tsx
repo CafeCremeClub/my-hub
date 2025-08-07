@@ -83,7 +83,7 @@ const Sidebar = () => {
                             <Button
                                 key={route.id}
                                 className={`flex justify-start items-center gap-3 w-full rounded-[0.375rem] text-[#BCD8FF] font-semibold tracking-tighter bricolage-grotesque cursor-pointer hover:bg-[#697194]/90 ${
-                                    selectedRoute === route.name
+                                    selectedRoute === route.route
                                         ? "bg-[#697194]"
                                         : "bg-transparent"
                                 }`}
