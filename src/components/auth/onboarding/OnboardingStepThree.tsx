@@ -6,10 +6,12 @@ import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
 import useOnboardingContext from "@/hooks/useOnboardingContext";
+import {useRouter} from "next/navigation";
 
 const OnboardingStepThree = () => {
 
     const {setStep} = useOnboardingContext();
+    const router = useRouter();
 
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
@@ -54,8 +56,9 @@ const OnboardingStepThree = () => {
 
                 <div className="flex flex-col gap-0.5">
                     <CustomButton
-                        type="submit"
+                        type="button"
                         className="bricolage-grotesque font-semibold"
+                        onClick={() => router.push("/dashboard")}
                     >
                         Je rejoins le Hub
                     </CustomButton>
