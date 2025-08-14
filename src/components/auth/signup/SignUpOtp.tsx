@@ -1,6 +1,5 @@
 import React from 'react';
 import {Mail} from "lucide-react";
-import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
 import CustomOtpInput from "@/components/custom/CustomOTPInput";
 
