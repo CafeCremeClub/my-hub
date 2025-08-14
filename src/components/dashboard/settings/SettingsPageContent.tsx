@@ -5,6 +5,7 @@ import {useSearchParams} from "next/navigation";
 import SettingsTabs from "@/components/dashboard/settings/SettingsTabs";
 import {SettingTabsKey} from "@/types/settings/SettingTabsKey";
 import SettingsProfileContent from "@/components/dashboard/settings/SettingsProfileContent";
+import SettingsPasswordContent from "@/components/dashboard/settings/SettingsPasswordContent";
 
 const SettingsPageContent = () => {
 
@@ -27,7 +28,10 @@ const SettingsPageContent = () => {
                     currentTab === "profile" ?
                         <SettingsProfileContent/> : null
                 }
-                {currentTab === "password" && <p>Contenu du mot de passe</p>}
+                {
+                    currentTab === "password" ?
+                        <SettingsPasswordContent/> : null
+                }
                 {currentTab === "email" && <p>Contenu de l&#39;email</p>}
                 {currentTab === "notifications" && <p>Contenu des notifications</p>}
             </div>
