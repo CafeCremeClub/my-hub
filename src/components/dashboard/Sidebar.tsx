@@ -9,6 +9,7 @@ import {FiUser} from "react-icons/fi";
 import {Bookmark, LogOut, Settings} from "lucide-react";
 import {TbUsers} from "react-icons/tb";
 import {usePathname, useRouter} from "next/navigation";
+import {logout} from "@/app/actions/logout";
 
 const routes = [
     {
@@ -58,6 +59,11 @@ const Sidebar = () => {
         }*/
         setSelectedRoute(name)
         router.push(name);
+    }
+
+    const handleLogout = async () => {
+        await logout();
+        router.push('/auth/signin');
     }
 
     useEffect(() => {
@@ -110,8 +116,9 @@ const Sidebar = () => {
                             size="icon"
                             variant="ghost"
                             className="text-[#BCD8FF]  hover:text-[#BCD8FF]  hover:bg-[#697194] cursor-pointer"
+                            onClick={handleLogout}
                         >
-                            <LogOut className="size-5" />
+                            <LogOut className="size-5"/>
                         </Button>
                     </div>
                 </div>

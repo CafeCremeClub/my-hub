@@ -10,7 +10,7 @@ export async function saveCookies(token: string) {
     cookieStore.set('token', token, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
+        sameSite: 'none',
         path: '/',
         maxAge: 60 * 60 * 24 * 7, // 7 days
     })
