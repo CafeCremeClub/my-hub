@@ -21,6 +21,9 @@ interface CustomDragDropInputProps {
     acceptedFormats?: string[]
     maxSize?: number
     className?: string
+    value?: File | null
+    onChange?: (file: File | null) => void
+    isError?: boolean
     onFileUpload?: (file: File) => void
     onFileDelete?: (fileId: string) => void
 }
@@ -30,6 +33,9 @@ const CustomDragDropInput = ({
                                  acceptedFormats = ["JPEG", "PNG", "PDF", "MP4"],
                                  maxSize = 50,
                                  className,
+                                 value,
+                                 onChange,
+                                 isError = false,
                                  onFileUpload,
                                  onFileDelete,
                              }: CustomDragDropInputProps) => {
@@ -37,6 +43,20 @@ const CustomDragDropInput = ({
     const [isDragOver, setIsDragOver] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
     const uploadCallbackCalledRef = useRef<string | null>(null)
+
+    // Initialize with value prop if provided
+    useEffect(() => {
+        if (value && !uploadedFile) {
+            const fileId = Math.random().toString(36).slice(2, 9)
+            setUploadedFile({
+                file: value,
+                progress: 100,
+                id: fileId,
+            })
+        } else if (!value && uploadedFile) {
+            setUploadedFile(null)
+        }
+    }, [value])
 
     // Handle file upload callback when progress reaches 100%
     const handleUploadComplete = useCallback(() => {
@@ -84,6 +104,7 @@ const CustomDragDropInput = ({
         }
 
         setUploadedFile(newFile)
+        onChange?.(file)
 
         // Simulate upload progress
         const interval = setInterval(() => {
@@ -147,6 +168,7 @@ const CustomDragDropInput = ({
         if (uploadedFile) {
             onFileDelete?.(uploadedFile.id)
             setUploadedFile(null)
+            onChange?.(null)
         }
     }
 
@@ -207,6 +229,7 @@ const CustomDragDropInput = ({
                     className={cn(
                         "border border-[#D0D5DD] shadow-sm shadow-[#1018280D] rounded-[0.75rem] px-4 py-8 text-center cursor-pointer transition-colors",
                         isDragOver && "border-purple-400 bg-purple-50",
+                        isError && "border-[#DF1C41]",
                         "hover:border-gray-400",
                     )}
                     onDragOver={handleDragOver}
@@ -259,3 +282,4 @@ const CustomDragDropInput = ({
 }
 
 export default CustomDragDropInput
+

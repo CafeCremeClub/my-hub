@@ -9,10 +9,34 @@ import {ImCoinEuro} from "react-icons/im";
 import CustomTagInput from "@/components/custom/CustomTagInput";
 import CustomDragDropInput from "@/components/custom/CustomDragDropInput";
 import {useRouter} from "next/navigation";
+import useOnboardingContext from "@/hooks/useOnboardingContext";
+import {useFormik} from "formik";
+import * as yup from "yup";
+import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
+
+const validationSchema = yup.object({
+    tjm: yup.string().required("Le TJM est requis"),
+    expertise: yup.string().required("L'expertise est requise"),
+    industry: yup.array().min(1, "Au moins un secteur d'activité est requis"),
+    desiredJobs: yup.array().min(1, "Au moins un métier recherché est requis"),
+    cv: yup.mixed().required("Le CV est requis")
+});
 
 const OnboardingStepTwo = () => {
 
     const router = useRouter();
+    const {
+        tjm,
+        setTjm,
+        expertise,
+        setExpertise,
+        industry,
+        setIndustry,
+        desiredJobs,
+        setDesiredJobs,
+        cv,
+        setCv,
+    } = useOnboardingContext();
 
     const handleContinue = () => {
         const nextStep = 3;
@@ -22,6 +46,26 @@ const OnboardingStepTwo = () => {
         url.searchParams.set("step", nextStep.toString());
         router.push(url.toString());
     };
+
+    const formik = useFormik({
+        initialValues: {
+            tjm: tjm || "",
+            expertise: expertise || "",
+            industry: industry || [],
+            desiredJobs: desiredJobs || [],
+            cv: cv || null,
+        },
+        validationSchema,
+        onSubmit: (values) => {
+            setTjm(values.tjm);
+            setExpertise(values.expertise);
+            setIndustry(values.industry);
+            setDesiredJobs(values.desiredJobs);
+            setCv(values.cv);
+
+            handleContinue();
+        },
+    })
 
     /*const handleBack = () => {
         const prevStep = 1;
@@ -50,7 +94,7 @@ const OnboardingStepTwo = () => {
                 </p>
             </div>
 
-            <form className="flex flex-col gap-6 w-full">
+            <form className="flex flex-col gap-6 w-full" onSubmit={formik.handleSubmit}>
                 <div className="flex flex-col gap-5">
                     <div className="flex flex-col gap-1.5">
                         <Label htmlFor="tjm" className="text-[#344054] text-sm font-medium">
@@ -61,7 +105,16 @@ const OnboardingStepTwo = () => {
                             name="tjm"
                             placeholder="Ex : 400€"
                             leftIcon={<ImCoinEuro/>}
+                            value={formik.values.tjm}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isError={formik.touched.tjm && formik.errors.tjm !== undefined}
                         />
+                        {formik.touched.tjm && formik.errors.tjm && (
+                            <CustomErrorIndicator
+                                message={formik.errors.tjm}
+                            />
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
@@ -71,40 +124,75 @@ const OnboardingStepTwo = () => {
                         <CustomInput
                             id="expertise"
                             name="expertise"
-                            placeholder="Entre tes domaines d’expertises"
+                            placeholder="Entre tes domaines d'expertises"
+                            value={formik.values.expertise}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isError={formik.touched.expertise && formik.errors.expertise !== undefined}
                         />
+                        {formik.touched.expertise && formik.errors.expertise && (
+                            <CustomErrorIndicator
+                                message={formik.errors.expertise}
+                            />
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                        <Label htmlFor="activity" className="text-[#344054] text-sm font-medium">
-                            Secteurs d’activité
+                        <Label htmlFor="industry" className="text-[#344054] text-sm font-medium">
+                            Secteurs d&#39;activité
                         </Label>
                         <CustomTagInput
-                            id="activity"
-                            name="activity"
+                            id="industry"
+                            name="industry"
                             placeholder="Ex : Marketing, Finance, IT"
                             maxItems={3}
+                            value={formik.values.industry}
+                            onChange={(tags) => formik.setFieldValue('industry', tags)}
+                            onBlur={() => formik.setFieldTouched('industry', true)}
+                            isError={formik.touched.industry && formik.errors.industry !== undefined}
                         />
+                        {formik.touched.industry && formik.errors.industry && (
+                            <CustomErrorIndicator
+                                message={formik.errors.industry as string}
+                            />
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                        <Label htmlFor="wantedJob" className="text-[#344054] text-sm font-medium">
+                        <Label htmlFor="desiredJobs" className="text-[#344054] text-sm font-medium">
                             Métiers recherchés
                         </Label>
                         <CustomTagInput
-                            id="wantedJob"
-                            name="wantedJob"
+                            id="desiredJobs"
+                            name="desiredJobs"
                             placeholder="Ex : Développeur, Designer, Chef de projet"
                             maxItems={3}
+                            value={formik.values.desiredJobs}
+                            onChange={(tags) => formik.setFieldValue('desiredJobs', tags)}
+                            onBlur={() => formik.setFieldTouched('desiredJobs', true)}
+                            isError={formik.touched.desiredJobs && formik.errors.desiredJobs !== undefined}
                         />
+                        {formik.touched.desiredJobs && formik.errors.desiredJobs && (
+                            <CustomErrorIndicator
+                                message={formik.errors.desiredJobs as string}
+                            />
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-1.5">
                         <CustomDragDropInput
                             title="Déposes ton CV"
+                            value={formik.values.cv}
                             acceptedFormats={["SVG", "PNG", "JPG", "JPEG", "PDF"]}
                             maxSize={50}
+                            onFileUpload={(file) => formik.setFieldValue('cv', file)}
+                            isError={formik.touched.cv && formik.errors.cv !== undefined}
                         />
+                        {formik.touched.cv && formik.errors.cv && (
+                            <CustomErrorIndicator
+                                message={formik.errors.cv}
+                            />
+                        )}
                     </div>
 
                 </div>
@@ -113,10 +201,7 @@ const OnboardingStepTwo = () => {
                     <CustomButton
                         type="submit"
                         className="bricolage-grotesque font-semibold"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleContinue();
-                        }}
+                        disabled={!formik.isValid || formik.isSubmitting}
                     >
                         Continuer
                     </CustomButton>

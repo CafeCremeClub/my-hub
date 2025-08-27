@@ -1,55 +1,61 @@
 "use client";
 
 import {createContext, Dispatch, FC, ReactNode, SetStateAction, useMemo, useState} from "react";
-import {Step} from "@/types/onboarding/Step";
 
 
 interface OnboardingContextProps {
-    // Step block
-    step: Step;
-    setStep: Dispatch<SetStateAction<Step>>;
-
-    // Form data
-    /*firstName: string;
-    setFirstName: Dispatch<SetStateAction<string>>;
-    lastName: string;
-    setLastName: Dispatch<SetStateAction<string>>;
-    phoneNumber: string;
-    setPhoneNumber: Dispatch<SetStateAction<string>>;
-    jobTitle: string;
-    setJobTitle: Dispatch<SetStateAction<string>>;*/
-
-    // Skills and mission preferences
-    /*tjm: string;
+    tjm: string;
     setTjm: Dispatch<SetStateAction<string>>;
-    expertise: string[];
-    setExpertise: Dispatch<SetStateAction<string[]>>;
-    industrySectors: string[];
-    setIndustrySectors: Dispatch<SetStateAction<string[]>>;
+    expertise: string;
+    setExpertise: Dispatch<SetStateAction<string>>;
+    industry: string[];
+    setIndustry: Dispatch<SetStateAction<string[]>>;
     desiredJobs: string[];
     setDesiredJobs: Dispatch<SetStateAction<string[]>>;
     cv: File | null;
-    setCv: Dispatch<SetStateAction<File | null>>;*/
-
-    // Links and contacts
-    /*linkedin: string;
-    setLinkedin: Dispatch<SetStateAction<string>>;
+    setCv: Dispatch<SetStateAction<File | null>>;
+    linkedIn: string;
+    setLinkedIn: Dispatch<SetStateAction<string>>;
     whatsApp: string;
-    setWhatsApp: Dispatch<SetStateAction<string>>;*/
+    setWhatsApp: Dispatch<SetStateAction<string>>;
 }
 
 export const OnboardingContext = createContext<OnboardingContextProps | undefined>(undefined);
 
 const OnboardingContextProvider: FC<{ children: ReactNode }> = ({children}) => {
 
-    const [step, setStep] = useState<Step>(1);
+    const [tjm, setTjm] = useState<string>("");
+    const [expertise, setExpertise] = useState<string>("");
+    const [industry, setIndustry] = useState<string[]>([]);
+    const [desiredJobs, setDesiredJobs] = useState<string[]>([]);
+    const [cv, setCv] = useState<File | null>(null);
+    const [linkedIn, setLinkedIn] = useState<string>("");
+    const [whatsApp, setWhatsApp] = useState<string>("");
 
 
     const value = useMemo(() => ({
-        step,
-        setStep
+        tjm,
+        setTjm,
+        expertise,
+        setExpertise,
+        industry,
+        setIndustry,
+        desiredJobs,
+        setDesiredJobs,
+        cv,
+        setCv,
+        linkedIn,
+        setLinkedIn,
+        whatsApp,
+        setWhatsApp
     }), [
-        step
+        tjm,
+        expertise,
+        industry,
+        desiredJobs,
+        cv,
+        linkedIn,
+        whatsApp
     ])
 
     return (

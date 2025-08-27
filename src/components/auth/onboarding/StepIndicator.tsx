@@ -1,10 +1,13 @@
 "use client"
 
 import React from 'react';
-import useOnboardingContext from '@/hooks/useOnboardingContext';
+import {useSearchParams} from "next/navigation";
 
 const StepIndicator = () => {
-    const { step } = useOnboardingContext();
+
+    const searchParams = useSearchParams();
+    const stepParam = searchParams.get("step");
+    const currentStep = stepParam ? parseInt(stepParam, 10) : 1;
 
     const steps = [1, 2, 3];
 
@@ -14,7 +17,7 @@ const StepIndicator = () => {
                 <div
                     key={stepNumber}
                     className={`w-[10px] h-[10px] rounded-full transition-colors duration-200 ${
-                        step === stepNumber ? 'bg-[#1B55F5]' : 'bg-[#EAECF0]'
+                        currentStep === stepNumber ? 'bg-[#1B55F5]' : 'bg-[#EAECF0]'
                     }`}
                 />
             ))}
