@@ -7,7 +7,7 @@ import {FiUser} from "react-icons/fi";
 import {TbUsersPlus} from "react-icons/tb";
 import Step from "@/components/auth/onboarding/Step";
 import {PiLinkSimpleBold} from "react-icons/pi";
-import useOnboardingContext from "@/hooks/useOnboardingContext";
+import {useSearchParams} from "next/navigation";
 
 const steps = [
     {
@@ -33,7 +33,9 @@ const steps = [
 
 const OnboardingSidebar = () => {
 
-    const {step: currentStep} = useOnboardingContext();
+    const searchParams = useSearchParams();
+    const stepParam = searchParams.get("step");
+    const currentStep = stepParam ? parseInt(stepParam, 10) : 1;
 
     return (
         <div className="flex flex-col gap-20 col-span-1 px-8 py-7 bg-[#F9FAFB]">

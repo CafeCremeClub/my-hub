@@ -7,10 +7,24 @@ import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
 import {Phone} from "lucide-react";
 import useOnboardingContext from "@/hooks/useOnboardingContext";
+import {useRouter} from "next/navigation";
 
 const OnboardingStepOne = () => {
 
+    const router = useRouter();
+
     const {setStep} = useOnboardingContext();
+
+    const handleClick = () => {
+        const nextStep = 2;
+        // update context state
+        setStep(nextStep);
+
+        // update URL param
+        const url = new URL(window.location.href);
+        url.searchParams.set("step", nextStep.toString());
+        router.push(url.toString()); // push keeps history, replace would overwrite
+    };
 
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
@@ -79,7 +93,10 @@ const OnboardingStepOne = () => {
                 <CustomButton
                     type="submit"
                     className="bricolage-grotesque font-semibold"
-                    onClick={() => setStep(2)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleClick()
+                    }}
                 >
                     Continuer
                 </CustomButton>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import OnboardingSidebar from "@/components/auth/onboarding/OnboardingSidebar";
 
 interface OnboardingLayoutProps {
@@ -7,12 +7,14 @@ interface OnboardingLayoutProps {
 
 const OnboardingLayout = ({children}: OnboardingLayoutProps) => {
     return (
-        <div className="grid grid-cols-3 h-screen overflow-hidden">
-            <OnboardingSidebar/>
-            {
-                children
-            }
-        </div>
+        <Suspense>
+            <div className="grid grid-cols-3 h-screen overflow-hidden">
+                <OnboardingSidebar/>
+                {
+                    children
+                }
+            </div>
+        </Suspense>
     );
 };
 

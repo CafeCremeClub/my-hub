@@ -1,15 +1,66 @@
+"use client";
+
 import React from 'react';
 import {Mail} from "lucide-react";
 import CustomButton from "@/components/custom/CustomButton";
 import CustomOtpInput from "@/components/custom/CustomOTPInput";
+import useSignUp from "@/hooks/auth/useSignUp";
+import * as Yup from "yup";
+import {useFormik} from "formik";
+import {toast} from "sonner";
+import {handleSignUpError} from "@/utils/helpers/handleSignUpError";
+import {SignUpResponse} from "@/types/auth/SignUpResponse";
+import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 
 interface SignUpOtpProps {
-    onNext: () => void;
+    email: string;
+    onNext: (response: SignUpResponse) => void;
 }
 
-const SignUpOtp = ({onNext}: SignUpOtpProps) => {
+const SignUpOtp = ({email, onNext}: SignUpOtpProps) => {
 
-    const [value, setValue] = React.useState("");
+    const {
+        isPending,
+        mutateAsync
+    } = useSignUp();
+
+    const validationSchema = Yup.object({
+        otp: Yup.string()
+            .length(4, 'Le code OTP doit contenir 4 chiffres')
+            .matches(/^\d+$/, 'Le code OTP ne doit contenir que des chiffres')
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            otp: ''
+        },
+        validationSchema,
+        onSubmit: async (values) => {
+            try {
+                const response = await mutateAsync({
+                    email: email,
+                    code: values.otp
+                })
+
+                toast.success("Compte créé avec succès", {
+                    description: "Vous pouvez maintenant vous connecter à votre compte.",
+                    position: "bottom-right",
+                    className: "!bg-[#CBF5E5] !text-[#176448] !border !border-[#CBF5E5]",
+                    descriptionClassName: "!text-[#176448] !text-xs"
+                })
+
+                onNext(response);
+            } catch (error) {
+                const errorMessage = handleSignUpError(error);
+                toast.error("Creation de compte échouée", {
+                    description: errorMessage,
+                    position: "bottom-right",
+                    className: "!bg-[#DF1C41] !text-white",
+                    descriptionClassName: "!text-white !text-xs"
+                });
+            }
+        },
+    });
 
     return (
         <div className="flex flex-col gap-8 w-full md:w-[27.5rem]">
@@ -30,19 +81,29 @@ const SignUpOtp = ({onNext}: SignUpOtpProps) => {
             </div>
 
             <form
-                className="flex flex-col gap-6 rounded-[0.75rem] px-10 py-8 bg-white shadow-lg shadow-[#1018280F]">
+                className="flex flex-col gap-6 rounded-[0.75rem] px-10 py-8 bg-white shadow-lg shadow-[#1018280F]"
+                onSubmit={formik.handleSubmit}
+            >
 
                 <div className="flex justify-center">
                     <CustomOtpInput
-                        value={value}
-                        onChange={setValue}
+                        value={formik.values.otp}
+                        onChange={(value) => {
+                            formik.setFieldValue('otp', value);
+                        }}
                     />
                 </div>
+                {formik.touched.otp && formik.errors.otp && (
+                    <CustomErrorIndicator
+                        message={formik.errors.otp}
+                    />
+                )}
 
                 <CustomButton
-                    type="button"
+                    type="submit"
                     className="bricolage-grotesque font-semibold"
-                    onClick={onNext}
+                    disabled={isPending}
+                    isLoading={isPending}
                 >
                     Vérifier
                 </CustomButton>

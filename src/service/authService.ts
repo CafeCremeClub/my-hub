@@ -2,6 +2,8 @@ import {SendOTPPayload} from "@/types/auth/SendOTPPayload";
 import axiosInstance from "@/config/axiosInstance";
 import {SignInPayload} from "@/types/auth/SignInPayload";
 import {SignInResponse} from "@/types/auth/SignInResponse";
+import {SignUpPayload} from "@/types/auth/SignUpPayload";
+import {SignUpResponse} from "@/types/auth/SignUpResponse";
 
 
 export const sendOTP = async (payload: SendOTPPayload): Promise<void> => {
@@ -15,6 +17,15 @@ export const sendOTP = async (payload: SendOTPPayload): Promise<void> => {
 export const signIn = async (payload: SignInPayload): Promise<SignInResponse> => {
     try {
         const response = await axiosInstance.post<SignInResponse>("/users/signin", payload);
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const signUp = async (payload: SignUpPayload): Promise<SignUpResponse> => {
+    try {
+        const response = await axiosInstance.post<SignUpResponse>("/users", payload);
         return response.data;
     } catch (error) {
         throw error;

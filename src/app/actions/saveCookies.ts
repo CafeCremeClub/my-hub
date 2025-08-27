@@ -2,8 +2,11 @@
 
 
 import {cookies} from 'next/headers'
+import {SaveCookiesPayload} from "@/types/auth/SaveCookiesPayload";
 
-export async function saveCookies(token: string) {
+export async function saveCookies(payload: SaveCookiesPayload) {
+
+    const {token, shouldCompleteOnboarding} = payload
 
     const cookieStore = await cookies()
 
@@ -14,4 +17,13 @@ export async function saveCookies(token: string) {
         path: '/',
         maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    if (shouldCompleteOnboarding) {
+        cookieStore.set('should-complete-onboarding', 'true', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
+        });
+    }
 }

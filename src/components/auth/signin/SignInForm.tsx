@@ -15,6 +15,7 @@ import {handleSendOTPError} from "@/utils/helpers/handleSendOTPError";
 import {toast} from "sonner";
 import {handleSignInError} from "@/utils/helpers/handleSignInError";
 import {saveCookies} from "@/app/actions/saveCookies";
+import {UserRole} from "@/types/auth/UserRole";
 
 const SignInForm = () => {
 
@@ -79,7 +80,19 @@ const SignInForm = () => {
                         code: values.otp,
                     })
 
-                    await saveCookies(response.accessToken);
+                    if (response.user.role === UserRole.ADMIN) {
+                        toast.error("Échec de la connexion", {
+                            description: "Vous n’êtes pas autorisé à accéder à cette application.",
+                            position: "bottom-right",
+                            className: "!bg-[#DF1C41] !text-white",
+                            descriptionClassName: "!text-white !text-xs"
+                        });
+                        return;
+                    }
+
+                    await saveCookies({
+                        token: response.accessToken
+                    });
                     router.replace("/dashboard");
                     toast.success("Connexion réussie", {
                         description: "Bienvenue sur MyHub !",

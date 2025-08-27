@@ -4,10 +4,27 @@ import React from 'react';
 import {FaRegCircleCheck} from "react-icons/fa6";
 import CustomButton from "@/components/custom/CustomButton";
 import {useRouter} from "next/navigation";
+import {SignUpResponse} from "@/types/auth/SignUpResponse";
+import {saveCookies} from "@/app/actions/saveCookies";
 
-const SignUpSuccess = () => {
+interface SignUpSuccessProps {
+    signupResponse: SignUpResponse
+}
+
+const SignUpSuccess = ({signupResponse}: SignUpSuccessProps) => {
 
     const router = useRouter();
+    const [loading, setLoading] = React.useState(false);
+
+    const handleContinue = async () => {
+        setLoading(true);
+        await saveCookies({
+            token: signupResponse.accessToken,
+            shouldCompleteOnboarding: true,
+        });
+        setLoading(false);
+        router.push("/auth/onboarding?step=1");
+    }
 
     return (
         <div className="flex flex-col gap-8 w-full md:w-[27.5rem]">
@@ -31,7 +48,9 @@ const SignUpSuccess = () => {
             <CustomButton
                 type="button"
                 className="bricolage-grotesque font-semibold"
-                onClick={() => router.push("/auth/onboarding")}
+                onClick={handleContinue}
+                disabled={loading}
+                isLoading={loading}
             >
                 Continuer
             </CustomButton>

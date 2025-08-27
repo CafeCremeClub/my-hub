@@ -14,20 +14,21 @@ const CustomOtpInput = ({value, onChange, maxLength = 4}: CustomOTPInputProps) =
             value={value}
             onChange={onChange}
         >
-            {
-                Array.from({
-                    length: maxLength
-                }).map((_, i) => (
-                    <InputOTPGroup
-                        key={i}
-                    >
+            <InputOTPGroup
+                className="flex gap-1.5"
+            >
+                {
+                    Array.from({
+                        length: maxLength
+                    }).map((_, i) => (
                         <InputOTPSlot
+                            key={i}
                             index={i}
                             className="size-20 text-[#1B55F5] text-5xl font-medium !border-2 border-[#1734B6] !rounded-[0.625rem] active:!border-[#1734B6] active:ring-4 !ring-[#528BFF26]"
                         />
-                    </InputOTPGroup>
-                ))
-            }
+                    ))
+                }
+            </InputOTPGroup>
         </InputOTP>
     );
 };

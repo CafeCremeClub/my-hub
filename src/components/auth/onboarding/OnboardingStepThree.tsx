@@ -13,6 +13,17 @@ const OnboardingStepThree = () => {
     const {setStep} = useOnboardingContext();
     const router = useRouter();
 
+    const handleBack = () => {
+        const prevStep = 2;
+        // update context state
+        setStep(prevStep);
+
+        // update URL param
+        const url = new URL(window.location.href);
+        url.searchParams.set("step", prevStep.toString());
+        router.push(url.toString());
+    };
+
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
             <div
@@ -65,7 +76,7 @@ const OnboardingStepThree = () => {
                     <CustomButton
                         type="button"
                         className="text-[#1B55F5] bg-white hover:bg-white hover:underline bricolage-grotesque font-semibold border-none shadow-none"
-                        onClick={() => setStep(2)}
+                        onClick={handleBack}
                     >
                         Retour
                     </CustomButton>

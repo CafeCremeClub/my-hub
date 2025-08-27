@@ -1,6 +1,6 @@
 import {AxiosError} from "axios";
 
-export const handleSignInError = (
+export const handleSignUpError = (
     error: unknown,
     setError?: (msg: string) => void
 ): string => {
@@ -11,14 +11,14 @@ export const handleSignInError = (
         switch (status) {
             case 500:
                 const name = error.response?.data?.name || "";
-                if (name === "OtpInvalid") {
-                    const message = "Le code de vérification est invalide ou a expiré.";
+                if (name === "UserAlreadyExist") {
+                    const message = "Un compte existe déjà avec cette adresse e-mail.";
                     setError?.(message);
                     return message;
                 }
 
-                if (name === "UserNotFound") {
-                    const message = "Aucun compte trouvé avec cette adresse e-mail.";
+                if (name === "OtpInvalid") {
+                    const message = "Le code de vérification est invalide ou a expiré.";
                     setError?.(message);
                     return message;
                 }

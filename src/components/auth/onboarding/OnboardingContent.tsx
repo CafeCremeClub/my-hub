@@ -1,18 +1,26 @@
 "use client";
 
-
-import React from 'react';
+import React, {useEffect} from "react";
+import {useRouter, useSearchParams} from "next/navigation";
 import StepIndicator from "@/components/auth/onboarding/StepIndicator";
-import OnboardingStepTwo from "@/components/auth/onboarding/OnboardingStepTwo";
-import useOnboardingContext from "@/hooks/useOnboardingContext";
 import OnboardingStepOne from "@/components/auth/onboarding/OnboardingStepOne";
+import OnboardingStepTwo from "@/components/auth/onboarding/OnboardingStepTwo";
 import OnboardingStepThree from "@/components/auth/onboarding/OnboardingStepThree";
 
 const OnboardingContent = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
 
-    const {
-        step
-    } = useOnboardingContext();
+    const stepParam = searchParams.get("step");
+    const step = stepParam ? parseInt(stepParam, 10) : 1;
+
+    useEffect(() => {
+        if (!stepParam) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("step", "1");
+            router.replace(url.toString());
+        }
+    }, [stepParam, router]);
 
     return (
         <div
