@@ -2,6 +2,9 @@ import type {Metadata} from "next";
 import {Geist, Geist_Mono, Bricolage_Grotesque} from "next/font/google";
 import "./globals.css";
 import OnboardingContextProvider from "@/context/OnboardingContext";
+import ReactQueryProvider from "@/context/ReactQueryContext";
+import {Toaster} from "@/components/ui/sonner";
+
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -33,9 +36,12 @@ export default function RootLayout({
         <body
             className={`${geistSans.variable} ${geistMono.variable} ${bricolageGrotesque.variable} antialiased`}
         >
-        <OnboardingContextProvider>
-            {children}
-        </OnboardingContextProvider>
+        <ReactQueryProvider>
+            <OnboardingContextProvider>
+                {children}
+            </OnboardingContextProvider>
+        </ReactQueryProvider>
+        <Toaster/>
         </body>
         </html>
     );
