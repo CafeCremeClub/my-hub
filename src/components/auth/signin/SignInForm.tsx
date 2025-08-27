@@ -90,10 +90,30 @@ const SignInForm = () => {
                         return;
                     }
 
+                    if (!response.info) {
+                        await saveCookies({
+                            token: response.accessToken,
+                            shouldCompleteOnboarding: true,
+                        });
+                        router.push("/auth/onboarding?step=1");
+                        return;
+                    }
+
+                    if (!response.profile) {
+                        await saveCookies({
+                            token: response.accessToken,
+                            shouldCompleteOnboarding: true,
+                        });
+                        router.push("/auth/onboarding?step=2");
+                        return;
+                    }
+
                     await saveCookies({
                         token: response.accessToken
                     });
+
                     router.replace("/dashboard");
+
                     toast.success("Connexion réussie", {
                         description: "Bienvenue sur MyHub !",
                         position: "bottom-right",
@@ -151,6 +171,7 @@ const SignInForm = () => {
                                     value={formik.values.email}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
+                                    isError={formik.touched.email && formik.errors.email !== undefined}
                                 />
                                 {formik.touched.email && formik.errors.email && (
                                     <CustomErrorIndicator

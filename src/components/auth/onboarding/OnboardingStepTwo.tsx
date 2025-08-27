@@ -8,18 +8,14 @@ import CustomButton from "@/components/custom/CustomButton";
 import {ImCoinEuro} from "react-icons/im";
 import CustomTagInput from "@/components/custom/CustomTagInput";
 import CustomDragDropInput from "@/components/custom/CustomDragDropInput";
-import useOnboardingContext from "@/hooks/useOnboardingContext";
 import {useRouter} from "next/navigation";
 
 const OnboardingStepTwo = () => {
 
     const router = useRouter();
-    const {setStep} = useOnboardingContext();
 
     const handleContinue = () => {
         const nextStep = 3;
-        // update context state
-        setStep(nextStep);
 
         // update URL param
         const url = new URL(window.location.href);
@@ -27,7 +23,7 @@ const OnboardingStepTwo = () => {
         router.push(url.toString());
     };
 
-    const handleBack = () => {
+    /*const handleBack = () => {
         const prevStep = 1;
         // update context state
         setStep(prevStep);
@@ -36,7 +32,7 @@ const OnboardingStepTwo = () => {
         const url = new URL(window.location.href);
         url.searchParams.set("step", prevStep.toString());
         router.push(url.toString());
-    };
+    };*/
 
     return (
         <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
@@ -124,13 +120,13 @@ const OnboardingStepTwo = () => {
                     >
                         Continuer
                     </CustomButton>
-                    <CustomButton
+                    {/*<CustomButton
                         type="button"
                         className="text-[#1B55F5] bg-white hover:bg-white hover:underline bricolage-grotesque font-semibold border-none shadow-none"
                         onClick={handleBack}
                     >
                         Retour
-                    </CustomButton>
+                    </CustomButton>*/}
                 </div>
             </form>
 

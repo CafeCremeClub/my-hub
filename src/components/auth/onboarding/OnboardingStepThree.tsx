@@ -5,18 +5,14 @@ import {PiLinkSimpleBold} from "react-icons/pi";
 import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
-import useOnboardingContext from "@/hooks/useOnboardingContext";
 import {useRouter} from "next/navigation";
 
 const OnboardingStepThree = () => {
 
-    const {setStep} = useOnboardingContext();
     const router = useRouter();
 
     const handleBack = () => {
         const prevStep = 2;
-        // update context state
-        setStep(prevStep);
 
         // update URL param
         const url = new URL(window.location.href);
