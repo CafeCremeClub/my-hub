@@ -57,7 +57,7 @@ const CustomTagInput = ({
         <div className="w-full">
             <div
                 className={cn(
-                    "flex flex-wrap h-[2.75rem] items-center gap-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
+                    "flex flex-wrap min-h-[2.75rem] items-center gap-2 py-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
                     isError
                         ? "border border-[#DF1C41] focus:border-[#DF1C41]"
                         : "border border-[#D0D5DD] focus:border focus:!border-gray-400",

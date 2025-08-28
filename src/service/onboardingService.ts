@@ -19,7 +19,7 @@ export const addUserProfile = async (payload: AddProfilePayload): Promise<void> 
             if (Array.isArray(value)) {
                 value.forEach(item => formData.append(key, item));
             } else {
-                formData.append(key, value as string | Blob);
+                formData.append(key, value);
             }
         }
 
