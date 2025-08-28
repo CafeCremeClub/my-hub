@@ -4,6 +4,7 @@ import {SignInPayload} from "@/types/auth/SignInPayload";
 import {SignInResponse} from "@/types/auth/SignInResponse";
 import {SignUpPayload} from "@/types/auth/SignUpPayload";
 import {SignUpResponse} from "@/types/auth/SignUpResponse";
+import {Profile} from "@/types/auth/Profile";
 
 
 export const sendOTP = async (payload: SendOTPPayload): Promise<void> => {
@@ -27,6 +28,15 @@ export const signUp = async (payload: SignUpPayload): Promise<SignUpResponse> =>
     try {
         const response = await axiosInstance.post<SignUpResponse>("/users", payload);
         return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getMe = async (): Promise<Profile> => {
+    try {
+        const response = await axiosInstance.get<Profile>("/profiles/me");
+        return response.data
     } catch (error) {
         throw error;
     }

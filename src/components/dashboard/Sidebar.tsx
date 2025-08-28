@@ -10,6 +10,9 @@ import {Bookmark, LogOut, Settings} from "lucide-react";
 import {TbUsers} from "react-icons/tb";
 import {usePathname, useRouter} from "next/navigation";
 import {logout} from "@/app/actions/logout";
+import useGetMe from "@/hooks/auth/useGetMe";
+import {Skeleton} from "@/components/ui/skeleton";
+import {useQueryClient} from "@tanstack/react-query";
 
 const routes = [
     {
@@ -48,6 +51,11 @@ const routes = [
 const Sidebar = () => {
 
 
+    const queryClient = useQueryClient();
+    const {
+        isPending,
+        data
+    } = useGetMe()
     const router = useRouter();
     const pathname = usePathname();
 
@@ -63,7 +71,8 @@ const Sidebar = () => {
 
     const handleLogout = async () => {
         await logout();
-        router.push('/auth/signin');
+        queryClient.clear();
+        router.replace('/auth/signin');
     }
 
     useEffect(() => {
@@ -76,7 +85,7 @@ const Sidebar = () => {
     }, [pathname])
 
     return (
-        <aside className="h-full flex flex-col w-[17.625rem] bg-[#142057] px-4 pt-9 pb-6">
+        <aside className="h-full flex flex-col w-[17.625rem] bg-[#142057] px-4 pt-9 pb-6 flex-none">
             <div className="flex flex-col gap-4 h-full">
                 <Image
                     src={lightBlueLogo}
@@ -103,14 +112,22 @@ const Sidebar = () => {
                     }
 
                     <div className="flex items-center justify-between mt-auto">
-                        <div className="flex flex-col">
-                            <p className="text-[#EEF5FF] font-semibold text-sm">
-                                Olivia Rhye
-                            </p>
-                            <p className="text-[#2970FF] text-sm">
-                                olivia@untitledui.com
-                            </p>
-                        </div>
+                        {
+                            isPending ? (
+                                <div className="flex flex-col gap-1">
+                                    <Skeleton className="h-4 w-24 rounded-md"/> {/* name placeholder */}
+                                    <Skeleton className="h-4 w-36 rounded-md"/> {/* email placeholder */}
+                                </div>
+                            ) : data ?
+                                <div className="flex flex-col">
+                                    <p className="text-[#EEF5FF] font-semibold text-sm">
+                                        {data.firstname} {data.lastname}
+                                    </p>
+                                    <p className="text-[#2970FF] text-sm">
+                                        {data.email}
+                                    </p>
+                                </div> : null
+                        }
 
                         <Button
                             size="icon"

@@ -1,27 +1,55 @@
+"use client";
+
 import React from 'react';
 import CustomButton from "@/components/custom/CustomButton";
 import Image from "next/image";
-import {user} from "../../../../public";
+import {defaultAvatar} from "../../../../public";
 import {TbCurrencyEuro} from "react-icons/tb";
 import FRIcon from "@/components/icons/FRIcon";
-import {ArrowUpRight} from "lucide-react";
+import {ArrowUpRight, CircleAlert} from "lucide-react";
 import PDFIcon from "@/components/icons/PDFIcon";
+import useGetMe from "@/hooks/auth/useGetMe";
+import ProfileSkeleton from "@/components/dashboard/profile/ProfileSkeleton";
 
 const ProfilePageContent = () => {
+
+    const {
+        isPending,
+        isError,
+        data
+    } = useGetMe();
+
+    if (isPending) {
+        return (
+            <ProfileSkeleton/>
+        )
+    }
+
+    if (isError || !data) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center gap-2 rounded-3xl py-6 px-8 bg-[#F4F9FF]">
+                <CircleAlert className="text-red-500 size-12"/>
+                <p className="text-red-500 text-center">
+                    Une erreur est survenue lors du chargement de votre profil. Veuillez réessayer plus tard.
+                </p>
+            </div>
+        )
+    }
+
     return (
         <div className="grid grid-cols-8 gap-8">
             <div className="col-span-8 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
                     <div className="size-[10rem] rounded-full border-4 border-white overflow-hidden flex-none">
-                        <Image src={user} alt="User Profile Picture"
+                        <Image src={defaultAvatar} alt="User Profile Picture"
                                className="w-full h-full object-cover object-center"/>
                     </div>
                     <div className="flex flex-col gap-1">
                         <p className="font-semibold text-5xl text-[#1734B6] tracking-tighter bricolage-grotesque">
-                            0livia Rhye
+                            {data.firstname} {data.lastname}
                         </p>
                         <p className="text-[#475467]">
-                            Développeur Full Stack
+                            {data.profession}
                         </p>
                     </div>
                 </div>
@@ -37,7 +65,7 @@ const ProfilePageContent = () => {
                     <div className="flex items-center gap-2">
                         <TbCurrencyEuro className="text-[#667085] size-9"/>
                         <p className="text-4xl text-[#344054] font-semibold tracking-tighter bricolage-grotesque">
-                            450
+                            {data.tjm}
                         </p>
                     </div>
                 </div>
@@ -84,7 +112,7 @@ const ProfilePageContent = () => {
                     </p>
                     <div className="flex items-center gap-2 cursor-pointer hover:underline">
                         <p className="font-semibold text-[#004EEB] tracking-tighter bricolage-grotesque">
-                            hi@jayawillis.com
+                            {data.email}
                         </p>
                         <ArrowUpRight className="text-[#6941C6] size-5"/>
                     </div>
@@ -111,7 +139,8 @@ const ProfilePageContent = () => {
                     <p className="text-[#101828] text-xl font-semibold tracking-tighter bricolage-grotesque">
                         CV :
                     </p>
-                    <div className="max-w-md flex items-start justify-between p-3.5 bg-white border border-[#EAECF0] rounded-[0.75rem]">
+                    <div
+                        className="max-w-md flex items-start justify-between p-3.5 bg-white border border-[#EAECF0] rounded-[0.75rem]">
                         <div className="flex items-center gap-3">
                             <PDFIcon/>
                             <div className="text-sm">

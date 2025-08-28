@@ -29,7 +29,7 @@ const DashboardPageHeader = () => {
                 </div>
             </div>
 
-            <div className="flex items-center justify-between w-full">
+            <div className="flex  flex-wrap items-center justify-between w-full gap-2.5">
                 <div className="flex items-center gap-2.5">
                     <CustomInput
                         id="postName"
