@@ -6,13 +6,15 @@ import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
 import {ImCoinEuro} from "react-icons/im";
-import CustomTagInput from "@/components/custom/CustomTagInput";
 import CustomDragDropInput from "@/components/custom/CustomDragDropInput";
 import {useRouter} from "next/navigation";
 import useOnboardingContext from "@/hooks/useOnboardingContext";
 import {useFormik} from "formik";
 import * as yup from "yup";
 import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
+import CustomTagInputWithDropDown from "@/components/custom/CustomTagInputWithDropDown";
+import {jobOptions} from "@/utils/jobOptions";
+import {industryOptions} from "@/utils/industryOptions";
 
 const validationSchema = yup.object({
     tjm: yup.string().required("Le TJM est requis"),
@@ -141,11 +143,11 @@ const OnboardingStepTwo = () => {
                         <Label htmlFor="industry" className="text-[#344054] text-sm font-medium">
                             Secteurs d&#39;activité
                         </Label>
-                        <CustomTagInput
+                        <CustomTagInputWithDropDown
                             id="industry"
-                            name="industry"
                             placeholder="Ex : Marketing, Finance, IT"
                             maxItems={3}
+                            items={industryOptions}
                             value={formik.values.industry}
                             onChange={(tags) => formik.setFieldValue('industry', tags)}
                             onBlur={() => formik.setFieldTouched('industry', true)}
@@ -162,11 +164,11 @@ const OnboardingStepTwo = () => {
                         <Label htmlFor="desiredJobs" className="text-[#344054] text-sm font-medium">
                             Métiers recherchés
                         </Label>
-                        <CustomTagInput
+                        <CustomTagInputWithDropDown
                             id="desiredJobs"
-                            name="desiredJobs"
                             placeholder="Ex : Développeur, Designer, Chef de projet"
                             maxItems={3}
+                            items={jobOptions}
                             value={formik.values.desiredJobs}
                             onChange={(tags) => formik.setFieldValue('desiredJobs', tags)}
                             onBlur={() => formik.setFieldTouched('desiredJobs', true)}

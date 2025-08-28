@@ -17,7 +17,7 @@ export const addUserProfile = async (payload: AddProfilePayload): Promise<void> 
 
         for (const [key, value] of Object.entries(payload)) {
             if (Array.isArray(value)) {
-                value.forEach(item => formData.append(key, item));
+                formData.append(key, JSON.stringify(value));
             } else {
                 formData.append(key, value);
             }
