@@ -1,10 +1,12 @@
 import {NextRequest, NextResponse} from 'next/server';
 
 export function middleware(request: NextRequest) {
-    const {pathname} = request.nextUrl;
+    const {pathname, searchParams} = request.nextUrl;
 
     const token = request.cookies.get('token')?.value;
     const shouldCompleteOnboarding = request.cookies.get('should-complete-onboarding')?.value;
+    const shouldCompleteUserInfo = request.cookies.get('should-complete-user-info')?.value;
+    const shouldCompleteProfileInfo = request.cookies.get('should-complete-profile-info')?.value;
 
     const hasToken = !!token
 
@@ -40,6 +42,22 @@ export function middleware(request: NextRequest) {
                 const onboardingPath = '/auth/onboarding'
                 return NextResponse.redirect(new URL(onboardingPath, request.url));
             }
+
+            // NEW LOGIC: Handle step-based restrictions within onboarding
+            if (isOnboardingRoute) {
+                const step = searchParams.get('step');
+
+                // If should-complete-user-info is true, restrict access to steps 2 and 3
+                if (shouldCompleteUserInfo === "true" && (step === "2" || step === "3")) {
+                    return NextResponse.redirect(new URL('/auth/onboarding?step=1', request.url));
+                }
+
+                // If should-complete-profile-info is true, restrict access to step 1
+                if (shouldCompleteProfileInfo === "true" && step === "1") {
+                    return NextResponse.redirect(new URL('/auth/onboarding?step=2', request.url));
+                }
+            }
+
             return NextResponse.next();
         }
 

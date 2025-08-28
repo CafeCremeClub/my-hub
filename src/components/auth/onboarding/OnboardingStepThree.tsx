@@ -66,6 +66,8 @@ const OnboardingStepThree = () => {
                     linkedIn: values.linkedIn,
                     whatsApp: values.whatsApp
                 })
+
+                await deleteCookieByName("should-complete-profile-info");
                 await deleteCookieByName("should-complete-onboarding");
 
                 toast.success("Informations enregistrées", {

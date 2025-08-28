@@ -12,6 +12,8 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 import {toast} from "sonner";
+import {deleteCookieByName} from "@/app/actions/deleteCookieByName";
+import {saveCookieByName} from "@/app/actions/saveCookieByName";
 
 const OnboardingStepOne = () => {
 
@@ -47,6 +49,10 @@ const OnboardingStepOne = () => {
             onSubmit: async (values) => {
                 try {
                     await mutateAsync(values);
+
+                    await deleteCookieByName("should-complete-user-info");
+                    await saveCookieByName("should-complete-profile-info", "true");
+
                     toast.success("Informations enregistrées", {
                         description: "Vos informations utilisateur ont été ajoutées avec succès.",
                         position: "bottom-right",

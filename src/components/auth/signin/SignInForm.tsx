@@ -94,6 +94,7 @@ const SignInForm = () => {
                         await saveCookies({
                             token: response.accessToken,
                             shouldCompleteOnboarding: true,
+                            shouldCompleteUserInfo: true
                         });
                         router.push("/auth/onboarding?step=1");
                         return;
@@ -103,6 +104,7 @@ const SignInForm = () => {
                         await saveCookies({
                             token: response.accessToken,
                             shouldCompleteOnboarding: true,
+                            shouldCompleteProfileInfo: true
                         });
                         router.push("/auth/onboarding?step=2");
                         return;

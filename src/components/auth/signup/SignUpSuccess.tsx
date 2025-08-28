@@ -21,6 +21,7 @@ const SignUpSuccess = ({signupResponse}: SignUpSuccessProps) => {
         await saveCookies({
             token: signupResponse.accessToken,
             shouldCompleteOnboarding: true,
+            shouldCompleteUserInfo: true,
         });
         setLoading(false);
         router.push("/auth/onboarding?step=1");
