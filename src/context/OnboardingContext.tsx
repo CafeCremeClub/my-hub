@@ -14,6 +14,12 @@ interface OnboardingContextProps {
     setDesiredJobs: Dispatch<SetStateAction<string[]>>;
     cv: File | null;
     setCv: Dispatch<SetStateAction<File | null>>;
+    country: string;
+    setCountry: Dispatch<SetStateAction<string>>;
+    city: string;
+    setCity: Dispatch<SetStateAction<string>>;
+    skills: string[];
+    setSkills: Dispatch<SetStateAction<string[]>>;
     linkedIn: string;
     setLinkedIn: Dispatch<SetStateAction<string>>;
     whatsApp: string;
@@ -28,6 +34,9 @@ const OnboardingContextProvider: FC<{ children: ReactNode }> = ({children}) => {
     const [expertise, setExpertise] = useState<string>("");
     const [industry, setIndustry] = useState<string[]>([]);
     const [desiredJobs, setDesiredJobs] = useState<string[]>([]);
+    const [country, setCountry] = useState<string>("");
+    const [city, setCity] = useState<string>("");
+    const [skills, setSkills] = useState<string[]>([]);
     const [cv, setCv] = useState<File | null>(null);
     const [linkedIn, setLinkedIn] = useState<string>("");
     const [whatsApp, setWhatsApp] = useState<string>("");
@@ -42,6 +51,12 @@ const OnboardingContextProvider: FC<{ children: ReactNode }> = ({children}) => {
         setIndustry,
         desiredJobs,
         setDesiredJobs,
+        country,
+        setCountry,
+        city,
+        setCity,
+        skills,
+        setSkills,
         cv,
         setCv,
         linkedIn,
@@ -53,6 +68,9 @@ const OnboardingContextProvider: FC<{ children: ReactNode }> = ({children}) => {
         expertise,
         industry,
         desiredJobs,
+        country,
+        city,
+        skills,
         cv,
         linkedIn,
         whatsApp

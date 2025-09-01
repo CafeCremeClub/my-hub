@@ -3,9 +3,12 @@
 export interface AddProfilePayload {
     tjm: number;
     expertise: string;
-    linkedIn: string;
-    whatsApp: string;
     industry: string[];
     desiredJobs: string[];
+    country: string
+    city: string
+    skills: string[]
     cv: File | null;
+    linkedIn: string;
+    whatsApp: string;
 }

@@ -15,12 +15,18 @@ import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 import CustomTagInputWithDropDown from "@/components/custom/CustomTagInputWithDropDown";
 import {jobOptions} from "@/utils/jobOptions";
 import {industryOptions} from "@/utils/industryOptions";
+import CustomSelectWithDropDown from "@/components/custom/CustomSelectWithDropDown";
+import {countryList} from "@/utils/countriesList";
+import {skillOptions} from "@/utils/skillOptions";
 
 const validationSchema = yup.object({
     tjm: yup.string().required("Le TJM est requis"),
     expertise: yup.string().required("L'expertise est requise"),
     industry: yup.array().min(1, "Au moins un secteur d'activité est requis"),
     desiredJobs: yup.array().min(1, "Au moins un métier recherché est requis"),
+    country: yup.string().required('Le pays est requis'),
+    city: yup.string().required('La ville est requise'),
+    skills: yup.array().min(1, "Au moins une compétence est requise"),
     cv: yup.mixed().required("Le CV est requis")
 });
 
@@ -36,6 +42,12 @@ const OnboardingStepTwo = () => {
         setIndustry,
         desiredJobs,
         setDesiredJobs,
+        country,
+        setCountry,
+        city,
+        setCity,
+        skills,
+        setSkills,
         cv,
         setCv,
     } = useOnboardingContext();
@@ -55,6 +67,9 @@ const OnboardingStepTwo = () => {
             expertise: expertise || "",
             industry: industry || [],
             desiredJobs: desiredJobs || [],
+            country: country || "",
+            city: city || "",
+            skills: skills || [],
             cv: cv || null,
         },
         validationSchema,
@@ -63,22 +78,14 @@ const OnboardingStepTwo = () => {
             setExpertise(values.expertise);
             setIndustry(values.industry);
             setDesiredJobs(values.desiredJobs);
+            setCountry(values.country);
+            setCity(values.city);
+            setSkills(values.skills);
             setCv(values.cv);
 
             handleContinue();
         },
     })
-
-    /*const handleBack = () => {
-        const prevStep = 1;
-        // update context state
-        setStep(prevStep);
-
-        // update URL param
-        const url = new URL(window.location.href);
-        url.searchParams.set("step", prevStep.toString());
-        router.push(url.toString());
-    };*/
 
     return (
         <div className="z-10 flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
@@ -181,6 +188,72 @@ const OnboardingStepTwo = () => {
                         )}
                     </div>
 
+
+                    <div className="flex flex-col gap-1.5">
+                        <Label htmlFor="skills" className="text-[#344054] text-sm font-medium">
+                            Compétences
+                        </Label>
+                        <CustomTagInputWithDropDown
+                            id="skills"
+                            placeholder="Ex : React, Node.js, UX Design"
+                            maxItems={5}
+                            items={skillOptions}
+                            value={formik.values.skills}
+                            onChange={(tags) => formik.setFieldValue('skills', tags)}
+                            onBlur={() => formik.setFieldTouched('skills', true)}
+                            isError={formik.touched.skills && formik.errors.skills !== undefined}
+                        />
+                        {formik.touched.skills && formik.errors.skills && (
+                            <CustomErrorIndicator
+                                message={formik.errors.skills as string}
+                            />
+                        )}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <Label htmlFor="country" className="text-[#344054] text-sm font-medium">
+                            Votre pays
+                        </Label>
+                        <CustomSelectWithDropDown
+                            id="country"
+                            placeholder="Ex : France , Allemagne, Espagne"
+                            value={formik.values.country}
+                            items={countryList.map((country) => ({
+                                key: country.key,
+                                label: country.name,
+                                value: country.name
+                            }))}
+                            onChange={(countryCode) => formik.setFieldValue('country', countryCode)}
+                            onBlur={() => formik.setFieldTouched('country', true)}
+                            isError={formik.touched.country && formik.errors.country !== undefined}
+                        />
+                        {formik.touched.country && formik.errors.country && (
+                            <CustomErrorIndicator
+                                message={formik.errors.country}
+                            />
+                        )}
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <Label htmlFor="city" className="text-[#344054] text-sm font-medium">
+                            Votre ville
+                        </Label>
+                        <CustomInput
+                            id="city"
+                            name="city"
+                            placeholder="Ex : Paris, Berlin, Madrid"
+                            value={formik.values.city}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            isError={formik.touched.city && formik.errors.city !== undefined}
+                        />
+                        {formik.touched.city && formik.errors.city && (
+                            <CustomErrorIndicator
+                                message={formik.errors.city}
+                            />
+                        )}
+                    </div>
+
                     <div className="flex flex-col gap-1.5">
                         <CustomDragDropInput
                             title="Déposes ton CV"
@@ -207,13 +280,6 @@ const OnboardingStepTwo = () => {
                     >
                         Continuer
                     </CustomButton>
-                    {/*<CustomButton
-                        type="button"
-                        className="text-[#1B55F5] bg-white hover:bg-white hover:underline bricolage-grotesque font-semibold border-none shadow-none"
-                        onClick={handleBack}
-                    >
-                        Retour
-                    </CustomButton>*/}
                 </div>
             </form>
 
