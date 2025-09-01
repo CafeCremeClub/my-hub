@@ -18,6 +18,7 @@ import {industryOptions} from "@/utils/industryOptions";
 import {skillOptions} from "@/utils/skillOptions";
 import CustomSelectWithDropDown from "@/components/custom/CustomSelectWithDropDown";
 import useSearchCity from "@/hooks/search/useSearchCity";
+import CustomTagInputWithCustomValues from "@/components/custom/CustomTagInputWithCustomValues";
 
 const validationSchema = yup.object({
     tjm: yup.string().required("Le TJM est requis"),
@@ -224,7 +225,7 @@ const OnboardingStepTwo = () => {
                         <Label htmlFor="skills" className="text-[#344054] text-sm font-medium">
                             Compétences
                         </Label>
-                        <CustomTagInputWithDropDown
+                        <CustomTagInputWithCustomValues
                             id="skills"
                             placeholder="Ex : React, Node.js, UX Design"
                             maxItems={5}
