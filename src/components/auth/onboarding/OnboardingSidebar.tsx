@@ -38,7 +38,7 @@ const OnboardingSidebar = () => {
     const currentStep = stepParam ? parseInt(stepParam, 10) : 1;
 
     return (
-        <div className="flex flex-col gap-20 col-span-1 px-8 py-7 bg-[#F9FAFB]">
+        <div className="hidden lg:flex flex-col gap-20 col-span-1 px-8 py-7 bg-[#F9FAFB]">
             <Image
                 src={logo}
                 alt="logo"

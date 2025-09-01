@@ -5,7 +5,6 @@ import {FiUser} from "react-icons/fi";
 import CustomButton from "@/components/custom/CustomButton";
 import {Label} from "@/components/ui/label";
 import CustomInput from "@/components/custom/CustomInput";
-import {Phone} from "lucide-react";
 import {useRouter} from "next/navigation";
 import useAddUserInfo from "@/hooks/onboarding/useAddUserInfo";
 import {useFormik} from "formik";
@@ -14,6 +13,7 @@ import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 import {toast} from "sonner";
 import {deleteCookieByName} from "@/app/actions/deleteCookieByName";
 import {saveCookieByName} from "@/app/actions/saveCookieByName";
+import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 
 const OnboardingStepOne = () => {
 
@@ -41,9 +41,7 @@ const OnboardingStepOne = () => {
             validationSchema: Yup.object({
                 firstname: Yup.string().required('Le prénom est requis'),
                 lastname: Yup.string().required('Le nom est requis'),
-                phone: Yup.string()
-                    .matches(/^(0|\+33|0033)[1-9](\d{2}){4}$/, 'Numéro de téléphone invalide')
-                    .required('Le numéro de téléphone est requis'),
+                phone: Yup.string().required('Le numéro de téléphone est requis'),
                 profession: Yup.string().required('Le métier est requis')
             }),
             onSubmit: async (values) => {
@@ -73,9 +71,9 @@ const OnboardingStepOne = () => {
         })
 
         return (
-            <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
+            <div className="z-10 flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
                 <div
-                    className="flex justify-center items-center size-12 rounded-[0.625rem] border shadow shadow-[#1018280D] border-[#EAECF0]"
+                    className="flex justify-center items-center size-12 rounded-[0.625rem] border shadow shadow-[#1018280D] border-[#EAECF0] bg-white"
                 >
                     <FiUser className="size-6 text-[#344054]"/>
                 </div>
@@ -137,14 +135,10 @@ const OnboardingStepOne = () => {
                             <Label htmlFor="phone" className="text-[#344054] text-sm font-medium">
                                 Numéro de téléphone
                             </Label>
-                            <CustomInput
-                                id="phone"
-                                name="phone"
-                                placeholder="0643294789"
-                                leftIcon={<Phone size={18}/>}
+                            <CustomPhoneInput
                                 value={formik.values.phone}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
+                                onChange={(value) => formik.setFieldValue('phone', value)}
+                                placeholder="(+33) 123 456 789"
                                 isError={formik.touched.phone && formik.errors.phone !== undefined}
                             />
                             {formik.touched.phone && formik.errors.phone && (

@@ -63,10 +63,10 @@ const SignUpOtp = ({email, onNext}: SignUpOtpProps) => {
     });
 
     return (
-        <div className="flex flex-col gap-8 w-full md:w-[27.5rem]">
+        <div className="z-10 flex flex-col gap-8 w-full md:w-[27.5rem]">
             <div className="flex items-center flex-col gap-6">
                 <div
-                    className="flex justify-center items-center size-14 shadow-sm shadow-[#1018280D] border border-[#EAECF0] rounded-[0.75rem]">
+                    className="flex justify-center items-center size-14 shadow-sm shadow-[#1018280D] border border-[#EAECF0] rounded-[0.75rem] bg-white">
                     <Mail className="text-[#344054]"/>
                 </div>
                 <div className="flex flex-col gap-3">

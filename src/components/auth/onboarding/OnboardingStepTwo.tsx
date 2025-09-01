@@ -81,9 +81,9 @@ const OnboardingStepTwo = () => {
     };*/
 
     return (
-        <div className="flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
+        <div className="z-10 flex flex-col items-center gap-8 w-full sm:w-[22.5rem]">
             <div
-                className="flex justify-center items-center size-12 rounded-[0.625rem] border shadow shadow-[#1018280D] border-[#EAECF0]"
+                className="flex justify-center items-center size-12 rounded-[0.625rem] border shadow shadow-[#1018280D] border-[#EAECF0] bg-white"
             >
                 <TbUsersPlus className="size-6 text-[#344054]"/>
             </div>

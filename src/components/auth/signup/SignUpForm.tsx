@@ -61,7 +61,7 @@ const SignUpForm = ({onNext}: SignUpFormProps) => {
 
 
     return (
-        <div className="flex flex-col gap-8 w-full md:w-[27.5rem]">
+        <div className="z-10 flex flex-col gap-8 w-full md:w-[27.5rem]">
             <div className="flex items-center flex-col gap-6">
                 <Image
                     src={logo}
