@@ -15,9 +15,9 @@ import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
 import CustomTagInputWithDropDown from "@/components/custom/CustomTagInputWithDropDown";
 import {jobOptions} from "@/utils/jobOptions";
 import {industryOptions} from "@/utils/industryOptions";
-import CustomSelectWithDropDown from "@/components/custom/CustomSelectWithDropDown";
-import {countryList} from "@/utils/countriesList";
 import {skillOptions} from "@/utils/skillOptions";
+import CustomSelectWithDropDown from "@/components/custom/CustomSelectWithDropDown";
+import useSearchCity from "@/hooks/search/useSearchCity";
 
 const validationSchema = yup.object({
     tjm: yup.string().required("Le TJM est requis"),
@@ -32,6 +32,17 @@ const validationSchema = yup.object({
 
 const OnboardingStepTwo = () => {
 
+    const {
+        isPending,
+        mutateAsync: searchCityByName
+    } = useSearchCity();
+
+    const [citySearchResults, setCitySearchResults] = React.useState<Array<{
+        key: string;
+        label: string;
+        value: string;
+    }>>([]);
+
     const router = useRouter();
     const {
         tjm,
@@ -42,8 +53,6 @@ const OnboardingStepTwo = () => {
         setIndustry,
         desiredJobs,
         setDesiredJobs,
-        country,
-        setCountry,
         city,
         setCity,
         skills,
@@ -61,13 +70,36 @@ const OnboardingStepTwo = () => {
         router.push(url.toString());
     };
 
+    // Handle city search
+    const handleCitySearch = async (query: string) => {
+        try {
+            const response = await searchCityByName({
+                q: query,
+                limit: 10,
+                autocomplete: 1
+            });
+
+            const cityItems = response.features
+                .map((feature) => ({
+                    key: feature.properties.id,
+                    label: feature.properties.label,
+                    value: `${feature.properties.label}__${feature.properties.id}`
+                }));
+
+            setCitySearchResults(cityItems);
+        } catch (error) {
+            console.error('Error searching cities:', error);
+            setCitySearchResults([]);
+        }
+    };
+
     const formik = useFormik({
         initialValues: {
             tjm: tjm || "",
             expertise: expertise || "",
             industry: industry || [],
             desiredJobs: desiredJobs || [],
-            country: country || "",
+            country: "France",
             city: city || "",
             skills: skills || [],
             cv: cv || null,
@@ -78,7 +110,6 @@ const OnboardingStepTwo = () => {
             setExpertise(values.expertise);
             setIndustry(values.industry);
             setDesiredJobs(values.desiredJobs);
-            setCountry(values.country);
             setCity(values.city);
             setSkills(values.skills);
             setCv(values.cv);
@@ -211,41 +242,22 @@ const OnboardingStepTwo = () => {
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                        <Label htmlFor="country" className="text-[#344054] text-sm font-medium">
-                            Votre pays
-                        </Label>
-                        <CustomSelectWithDropDown
-                            id="country"
-                            placeholder="Ex : France , Allemagne, Espagne"
-                            value={formik.values.country}
-                            items={countryList.map((country) => ({
-                                key: country.key,
-                                label: country.name,
-                                value: country.name
-                            }))}
-                            onChange={(countryCode) => formik.setFieldValue('country', countryCode)}
-                            onBlur={() => formik.setFieldTouched('country', true)}
-                            isError={formik.touched.country && formik.errors.country !== undefined}
-                        />
-                        {formik.touched.country && formik.errors.country && (
-                            <CustomErrorIndicator
-                                message={formik.errors.country}
-                            />
-                        )}
-                    </div>
-
-                    <div className="flex flex-col gap-1.5">
                         <Label htmlFor="city" className="text-[#344054] text-sm font-medium">
                             Votre ville
                         </Label>
-                        <CustomInput
+                        <CustomSelectWithDropDown
                             id="city"
-                            name="city"
-                            placeholder="Ex : Paris, Berlin, Madrid"
+                            placeholder="Ex : Paris, Lyon, Marseille"
                             value={formik.values.city}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
+                            items={citySearchResults}
+                            onChange={(uniqueValue) => {
+                                const cityName = uniqueValue.split('__')[0];
+                                formik.setFieldValue('city', cityName);
+                            }}
+                            onBlur={() => formik.setFieldTouched('city', true)}
                             isError={formik.touched.city && formik.errors.city !== undefined}
+                            onSearch={handleCitySearch}
+                            isSearching={isPending}
                         />
                         {formik.touched.city && formik.errors.city && (
                             <CustomErrorIndicator

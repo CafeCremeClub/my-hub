@@ -1,13 +1,12 @@
 "use client";
 
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {cn} from "@/lib/utils";
 import {
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
-    SelectValue,
 } from "@/components/ui/select";
 import {Input} from "@/components/ui/input";
 
@@ -25,6 +24,8 @@ interface CustomSelectWithDropDownProps<T = unknown> {
     onBlur?: () => void;
     items: DropdownItem<T>[];
     disabled?: boolean;
+    onSearch?: (query: string) => void;
+    isSearching?: boolean;
 }
 
 const CustomSelectWithDropDown = <T = unknown, >({
@@ -35,32 +36,49 @@ const CustomSelectWithDropDown = <T = unknown, >({
                                                      onBlur,
                                                      items,
                                                      disabled = false,
+                                                     onSearch,
+                                                     isSearching = false,
                                                      ...props
                                                  }: CustomSelectWithDropDownProps<T> & Omit<React.ComponentProps<"div">, keyof CustomSelectWithDropDownProps<T>>) => {
-    const [selectedValue, setSelectedValue] = useState<string>(value);
     const [searchQuery, setSearchQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    // Sync internal state with external value
-    useEffect(() => {
-        setSelectedValue(value);
-    }, [value]);
-
     const handleSelectValue = (selectedKey: string) => {
-        setSelectedValue(selectedKey);
         onChange?.(selectedKey);
         setIsOpen(false);
         setSearchQuery("");
     };
 
-    // Filter items based on search query
-    const filteredItems = items.filter(item =>
-        item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.key.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    // Handle search input changes
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setSearchQuery(query);
+
+        // Call the onSearch callback if provided (for dynamic search)
+        if (onSearch && query.length >= 3) {
+            onSearch(query);
+        }
+    };
 
     // Find the selected item to display its label
-    const selectedItem = items.find(item => item.value === selectedValue);
+    const selectedItem = items.find(item => {
+        if (onSearch) {
+            // For dynamic search (like city search), match by extracting the base value
+            const itemBaseValue = typeof item.value === 'string' && item.value.includes('__')
+                ? item.value.split('__')[0]
+                : item.value;
+            return itemBaseValue === value;
+        } else {
+            // For static items, direct match
+            return item.value === value;
+        }
+    });
+
+    // Get the value to use in the Select component
+    const selectValue = selectedItem ? selectedItem.value as string : "";
+
+    // For display purposes, show the selected value even if no matching item is found
+    const displayValue = selectedItem ? selectedItem.label : (value && onSearch ? value : placeholder);
 
     return (
         <div className="w-full" {...props}>
@@ -77,29 +95,26 @@ const CustomSelectWithDropDown = <T = unknown, >({
                     open={isOpen}
                     onOpenChange={setIsOpen}
                     onValueChange={handleSelectValue}
-                    value={selectedValue}
+                    value={selectValue}
                     disabled={disabled}
                 >
                     <SelectTrigger
                         className="!border-none shadow-none p-0 h-auto w-full bg-transparent !ring-0 focus:ring-0 focus:ring-offset-0"
                         onBlur={onBlur}
                     >
-                        <SelectValue
-                            placeholder={placeholder}
-                            className={cn(
-                                "text-sm",
-                                selectedItem ? "text-[#1B55F5]" : "text-[#667085]"
-                            )}
-                        >
-                            {selectedItem ? selectedItem.label : placeholder}
-                        </SelectValue>
+                        <div className={cn(
+                            "text-sm w-full text-left",
+                            (selectedItem || (value && onSearch)) ? "text-[#1B55F5]" : "text-[#667085]"
+                        )}>
+                            {displayValue}
+                        </div>
                     </SelectTrigger>
                     <SelectContent className="p-0">
                         <div className="p-2 border-b">
                             <Input
                                 placeholder="Search..."
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={handleSearchChange}
                                 className="h-8 text-sm"
                                 autoFocus
                                 onKeyDown={(e) => {
@@ -117,13 +132,20 @@ const CustomSelectWithDropDown = <T = unknown, >({
                             />
                         </div>
                         <div className="max-h-60 overflow-y-auto">
-                            {filteredItems.length === 0 ? (
+                            {isSearching ? (
                                 <div className="p-2 text-sm text-gray-500 text-center">
-                                    No items found
+                                    Recherche en cours...
+                                </div>
+                            ) : items.length === 0 ? (
+                                <div className="p-2 text-sm text-gray-500 text-center">
+                                    {searchQuery.length > 0 && searchQuery.length < 3 ? "Tapez au moins 3 caractères" : "Aucun élément trouvé"}
                                 </div>
                             ) : (
-                                filteredItems.map((item) => (
-                                    <SelectItem key={item.key} value={item.value as string}>
+                                items.map((item, index) => (
+                                    <SelectItem
+                                        key={`${index}-${item.key}`}
+                                        value={item.value as string}
+                                    >
                                         {item.label}
                                     </SelectItem>
                                 ))
