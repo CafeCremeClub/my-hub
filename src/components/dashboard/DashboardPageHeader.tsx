@@ -5,8 +5,16 @@ import {ChevronRight, Search} from "lucide-react";
 import HouseIcon from "@/components/icons/HouseIcon";
 import CustomInput from "@/components/custom/CustomInput";
 import CustomButton from "@/components/custom/CustomButton";
+import useGetMe from "@/hooks/auth/useGetMe";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const DashboardPageHeader = () => {
+
+    const {
+        isPending,
+        data
+    } = useGetMe();
+
     return (
         <div className="flex flex-col gap-6 w-full">
             <div className="flex flex-col gap-5">
@@ -20,9 +28,13 @@ const DashboardPageHeader = () => {
                     />
                 </div>
                 <div className="flex flex-col gap-1">
-                    <p className="font-semibold tracking-tighter text-4xl text-[#1734B6] bricolage-grotesque">
-                        Bienvenue, Ihsan
-                    </p>
+                    <div className="font-semibold tracking-tighter text-4xl text-[#1734B6] bricolage-grotesque">
+                        {
+                            isPending ? <Skeleton className="h-7 w-28 bg-gray-200"/> :
+                                data ? `Bienvenue, ${data.firstname} ${data.lastname}` :
+                                    "Bienvenue, Utilisateur"
+                        }
+                    </div>
                     <p className="text-[#475467]">
                         Trouvez la mission qu’il vous faut grâce à la force de la communauté.
                     </p>

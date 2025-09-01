@@ -10,6 +10,7 @@ import {ArrowUpRight, CircleAlert} from "lucide-react";
 import PDFIcon from "@/components/icons/PDFIcon";
 import useGetMe from "@/hooks/auth/useGetMe";
 import ProfileSkeleton from "@/components/dashboard/profile/ProfileSkeleton";
+import ErrorBox from "@/components/dashboard/ErrorBox";
 
 const ProfilePageContent = () => {
 
@@ -27,12 +28,9 @@ const ProfilePageContent = () => {
 
     if (isError || !data) {
         return (
-            <div className="h-full flex flex-col items-center justify-center gap-2 rounded-3xl py-6 px-8 bg-[#F4F9FF]">
-                <CircleAlert className="text-red-500 size-12"/>
-                <p className="text-red-500 text-center">
-                    Une erreur est survenue lors du chargement de votre profil. Veuillez réessayer plus tard.
-                </p>
-            </div>
+            <ErrorBox
+                message="Une erreur est survenue lors du chargement de votre profil. Veuillez réessayer plus tard."
+            />
         )
     }
 

@@ -14,7 +14,7 @@ const SettingsPageContent = () => {
     const [currentTab, setCurrentTab] = useState<SettingTabsKey>(tabParam || "profile");
 
     return (
-        <div className="flex flex-col gap-8 w-full">
+        <div className="flex flex-col gap-8 w-full h-full">
             <p className="font-semibold tracking-tighter text-4xl text-[#1734B6] bricolage-grotesque">
                 Paramètres
             </p>
@@ -23,7 +23,7 @@ const SettingsPageContent = () => {
                 onTabChange={(tab) => setCurrentTab(tab)}
             />
 
-            <div>
+            <div className="h-full">
                 {
                     currentTab === "profile" ?
                         <SettingsProfileContent/> : null

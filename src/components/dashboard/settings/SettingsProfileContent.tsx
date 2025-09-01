@@ -14,10 +14,36 @@ import {
 import {FaListOl} from "react-icons/fa6";
 import {Textarea} from "@/components/ui/textarea";
 import CustomButton from "@/components/custom/CustomButton";
+import useGetMe from "@/hooks/auth/useGetMe";
+import SettingsProfileContentSkeleton from "@/components/dashboard/settings/SettingsProfileContentSkeleton";
+import ErrorBox from "@/components/dashboard/ErrorBox";
+import CustomPhoneInput from "@/components/custom/CustomPhoneInput";
 
 const SettingsProfileContent = () => {
+
+    const {
+        isPending,
+        isError,
+        data
+    } = useGetMe();
+
+    if (isPending) {
+        return (
+            <SettingsProfileContentSkeleton/>
+        )
+    }
+
+
+    if (isError || !data) {
+        return (
+            <ErrorBox
+                message="Une erreur est survenue lors du chargement de vos informations. Veuillez réessayer plus tard."
+            />
+        )
+    }
+
     return (
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6 pb-6">
             <div className="flex flex-col gap-1">
                 <p className="font-semibold text-lg text-[#101828]">
                     Profil
@@ -41,7 +67,7 @@ const SettingsProfileContent = () => {
                             id="firstName"
                             name="firstName"
                             className="w-full"
-                            defaultValue="Ihsan"
+                            defaultValue={data.firstname}
                             readOnly={true}
                         />
                     </div>
@@ -58,7 +84,7 @@ const SettingsProfileContent = () => {
                             id="lastName"
                             name="lastName"
                             className="w-full"
-                            defaultValue="MOHAMAD"
+                            defaultValue={data.lastname}
                             readOnly={true}
                         />
                     </div>
@@ -79,8 +105,9 @@ const SettingsProfileContent = () => {
                             type="email"
                             className="w-full"
                             leftIcon={<Mail/>}
-                            defaultValue="ihsan@example.com"
+                            defaultValue={data.email}
                             readOnly={true}
+                            disabled
                         />
                     </div>
                 </div>
@@ -93,12 +120,10 @@ const SettingsProfileContent = () => {
                         Numéro Whatsapp
                     </Label>
                     <div className="col-span-2">
-                        <CustomInput
-                            id="phone"
-                            name="phone"
-                            className="w-full"
-                            defaultValue="+33 07 60 39 27 88"
-                            readOnly={true}
+                        <CustomPhoneInput
+                            value={data.phone}
+                            onChange={() => {
+                            }}
                         />
                     </div>
                 </div>
@@ -115,7 +140,7 @@ const SettingsProfileContent = () => {
                             id="linkedin"
                             name="linkedin"
                             className="w-full"
-                            defaultValue="www.linkedin.com/ihsanmohamad"
+                            defaultValue={data.linkedIn}
                             readOnly={true}
                         />
                     </div>
@@ -135,7 +160,7 @@ const SettingsProfileContent = () => {
                             id="post"
                             name="post"
                             className="w-full"
-                            defaultValue="Chief Marketing Officer"
+                            defaultValue={data.profession}
                             readOnly={true}
                         />
                     </div>
