@@ -1,4 +1,5 @@
 import {Industry} from "@/types/onboarding/Industry";
+import {MissionStatus} from "@/types/mission/MissionStatus";
 
 export interface Mission {
     id: string;
@@ -10,7 +11,7 @@ export interface Mission {
     link: string;
     whatsApp: string;
     companyBio: string;
-    status: string; // Todo: replace by enum
+    status: MissionStatus;
     createdAt: string;
     updatedAt: string;
     deletedAt: string | null

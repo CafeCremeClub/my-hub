@@ -1,4 +1,5 @@
 import {Industry} from "@/types/onboarding/Industry";
+import {MissionStatus} from "@/types/mission/MissionStatus";
 
 
 export interface GetMissionsApiResponse {
@@ -20,7 +21,7 @@ export interface GetMissionsApiResponse {
             link: string;
             whatsApp: string;
             companyBio: string;
-            status: string; // Todo: replace by enum
+            status: MissionStatus;
             deletedAt: string | null
         }
     }[];

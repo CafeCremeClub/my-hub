@@ -8,7 +8,7 @@ import CustomButton from "@/components/custom/CustomButton";
 import useGetMe from "@/hooks/auth/useGetMe";
 import {Skeleton} from "@/components/ui/skeleton";
 
-const DashboardPageHeader = () => {
+const MissionPageHeader = () => {
 
     const {
         isPending,
@@ -70,4 +70,4 @@ const DashboardPageHeader = () => {
     );
 };
 
-export default DashboardPageHeader;
+export default MissionPageHeader;
