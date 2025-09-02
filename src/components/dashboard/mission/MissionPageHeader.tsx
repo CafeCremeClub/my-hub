@@ -4,16 +4,32 @@ import React from 'react';
 import {ChevronRight, Search} from "lucide-react";
 import HouseIcon from "@/components/icons/HouseIcon";
 import CustomInput from "@/components/custom/CustomInput";
-import CustomButton from "@/components/custom/CustomButton";
 import useGetMe from "@/hooks/auth/useGetMe";
 import {Skeleton} from "@/components/ui/skeleton";
 
-const MissionPageHeader = () => {
+
+interface MissionPageHeaderProps {
+    title?: string;
+    setTitle?: (title: string) => void;
+}
+
+const MissionPageHeader = ({
+                               title = "",
+                               setTitle = () => {
+                               }
+                           }: MissionPageHeaderProps) => {
+
+    //const [temporaryTitle, setTemporaryTitle] = useState<string>(title);
 
     const {
         isPending,
         data
     } = useGetMe();
+
+    /*const onSearchClick = () => {
+        setTitle(temporaryTitle);
+    }*/
+
 
     return (
         <div className="flex flex-col gap-6 w-full">
@@ -41,13 +57,15 @@ const MissionPageHeader = () => {
                 </div>
             </div>
 
-            <div className="flex  flex-wrap items-center justify-between w-full gap-2.5">
+            <div className="flex flex-wrap items-center justify-between w-full gap-2.5">
                 <div className="flex items-center gap-2.5">
                     <CustomInput
-                        id="postName"
-                        name="postName"
+                        id="title"
+                        name="title"
                         leftIcon={<Search className="size-5 text-[#667085]"/>}
                         placeholder="Nom du poste"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
                     />
 
                     <CustomInput
@@ -56,15 +74,11 @@ const MissionPageHeader = () => {
                         placeholder="Domaines de compétences"
                     />
 
-                    <CustomInput
-                        id="duration"
-                        name="duration"
-                        placeholder="Durée de la mission"
-                    />
                 </div>
-                <CustomButton>
+                {/*<CustomButton
+                >
                     Rechercher
-                </CustomButton>
+                </CustomButton>*/}
             </div>
         </div>
     );

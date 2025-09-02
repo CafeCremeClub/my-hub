@@ -1,13 +1,9 @@
 import React from 'react';
-import MissionPageHeader from "@/components/dashboard/mission/MissionPageHeader";
-import MissionPageDataTable from "@/components/dashboard/mission/MissionPageDataTable";
+import MissionPageContent from "@/components/dashboard/mission/MissionPageContent";
 
 const DashboardPage = () => {
     return (
-        <div className="flex flex-col gap-8 w-full h-full">
-            <MissionPageHeader />
-            <MissionPageDataTable />
-        </div>
+        <MissionPageContent/>
     );
 };
 
