@@ -11,6 +11,8 @@ import {formatDateToFRFormat} from "@/utils/formatDateToFRFormat";
 import MissionTablePaginationControls from "@/components/dashboard/mission/MissionTablePaginationControls";
 import ErrorBox from "@/components/dashboard/ErrorBox";
 import {BsDatabaseFillSlash} from "react-icons/bs";
+import {useRouter} from "next/navigation";
+import NoDataBox from "@/components/dashboard/NoDataBox";
 
 interface MissionPageDataTableProps {
     page?: number;
@@ -28,6 +30,7 @@ const MissionPageDataTable = ({
                               MissionPageDataTableProps
     ) => {
 
+        const router = useRouter();
         const {
             isPending,
             isError,
@@ -73,9 +76,13 @@ const MissionPageDataTable = ({
                             </TableHeader>
                             <TableBody>
                                 {missions.data.map((mission, index) => (
-                                    <TableRow key={index} className={`h-[4.5rem] ${
-                                        index < missions.data.length - 1 ? "!border-b border-b-[#EAECF0]" : ""
-                                    }`}>
+                                    <TableRow
+                                        key={index}
+                                        className={`h-[4.5rem] cursor-pointer ${
+                                            index < missions.data.length - 1 ? "!border-b border-b-[#EAECF0]" : ""
+                                        }`}
+                                        onClick={() => router.push(`/dashboard/mission/${mission.id}?tab=overview`)}
+                                    >
                                         <TableCell
                                             className="font-medium text-[#101828] text-sm">{mission.title}</TableCell>
                                         <TableCell className="text-[#101828] text-sm">{mission.client}</TableCell>
@@ -102,11 +109,9 @@ const MissionPageDataTable = ({
                             </TableBody>
                         </Table>
                     ) : (
-                        <div
-                            className="h-full flex flex-col justify-center items-center gap-4 p-6 text-center text-sm text-[#475467]">
-                            <BsDatabaseFillSlash className="flex-none size-10"/>
-                            Aucune mission disponible pour le moment.
-                        </div>
+                        <NoDataBox
+                            message="Aucune mission disponible pour le moment."
+                        />
                     )
                 }
 

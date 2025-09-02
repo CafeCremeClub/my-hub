@@ -1,0 +1,1 @@
+export type MissionTabsKey = "overview" | "profile" | "client"

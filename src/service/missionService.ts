@@ -2,6 +2,7 @@ import {GetMissionsResponse} from "@/types/mission/GetMissionsResponse";
 import {GetMissionsPayload} from "@/types/mission/GetMissionsPayload";
 import axiosInstance from "@/config/axiosInstance";
 import {GetMissionsApiResponse} from "@/types/mission/GetMissionsApiResponse";
+import {MissionDetails} from "@/types/mission/MissionDetails";
 
 
 export const getMissions = async (payload: GetMissionsPayload): Promise<GetMissionsResponse> => {
@@ -27,6 +28,15 @@ export const getMissions = async (payload: GetMissionsPayload): Promise<GetMissi
                 deletedAt: mission.props.deletedAt
             }))
         };
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const getMissionById = async (id: string): Promise<MissionDetails> => {
+    try {
+        const response = await axiosInstance.get<MissionDetails>(`/missions/${id}`);
+        return response.data;
     } catch (error) {
         throw error;
     }
