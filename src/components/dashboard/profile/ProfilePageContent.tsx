@@ -13,14 +13,21 @@ import ProfileSkeleton from "@/components/dashboard/profile/ProfileSkeleton";
 import ErrorBox from "@/components/dashboard/ErrorBox";
 import Link from "next/link";
 import {FiEdit} from "react-icons/fi";
+import {useRouter} from "next/navigation";
 
 const ProfilePageContent = () => {
 
+    const router = useRouter();
     const {
         isPending,
         isError,
         data
     } = useGetMe();
+
+    const handleEditClick = () => {
+        router.push("/dashboard/settings?tab=profile");
+    }
+
 
     if (isPending) {
         return (
@@ -54,7 +61,9 @@ const ProfilePageContent = () => {
                         </p>
                     </div>
                 </div>
-                <CustomButton>
+                <CustomButton
+                    onClick={handleEditClick}
+                >
                     Modifier mon profil
                 </CustomButton>
             </div>
@@ -137,6 +146,7 @@ const ProfilePageContent = () => {
                         </p>
                         <CustomButton
                             className="size-9 bg-white border border-[#D0D5DD] hover:bg-[#D0D5DD]"
+                            onClick={handleEditClick}
                         >
                             <FiEdit className="size-4 text-[#344054]"/>
                         </CustomButton>

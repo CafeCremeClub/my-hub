@@ -6,7 +6,7 @@ import {lightBlueLogo} from "../../../public";
 import {Button} from "@/components/ui/button";
 import HouseIcon from "@/components/icons/HouseIcon";
 import {FiUser} from "react-icons/fi";
-import {Bookmark, LogOut, Settings} from "lucide-react";
+import {LogOut, Settings} from "lucide-react";
 import {TbUsers} from "react-icons/tb";
 import {usePathname, useRouter} from "next/navigation";
 import {logout} from "@/app/actions/logout";
@@ -29,18 +29,12 @@ const routes = [
     },
     {
         id: 3,
-        name: "Mes missions",
-        icon: Bookmark,
-        route: "/dashboard/missions",
-    },
-    {
-        id: 4,
         name: "Notre communauté",
         icon: TbUsers,
         route: "/dashboard/community",
     },
     {
-        id: 5,
+        id: 4,
         name: "Paramètres",
         icon: Settings,
         route: "/dashboard/settings",

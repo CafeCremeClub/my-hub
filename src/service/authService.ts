@@ -5,6 +5,7 @@ import {SignInResponse} from "@/types/auth/SignInResponse";
 import {SignUpPayload} from "@/types/auth/SignUpPayload";
 import {SignUpResponse} from "@/types/auth/SignUpResponse";
 import {Profile} from "@/types/auth/Profile";
+import {UpdateProfilePayload} from "@/types/auth/UpdateProfilePayload";
 
 
 export const sendOTP = async (payload: SendOTPPayload): Promise<void> => {
@@ -37,6 +38,14 @@ export const getMe = async (): Promise<Profile> => {
     try {
         const response = await axiosInstance.get<Profile>("/profiles/me");
         return response.data
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateProfile = async (payload: UpdateProfilePayload): Promise<void> => {
+    try {
+        await axiosInstance.patch("/users/update", payload);
     } catch (error) {
         throw error;
     }

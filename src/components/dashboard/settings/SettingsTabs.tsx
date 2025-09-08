@@ -9,8 +9,8 @@ const TABS: SettingTabs[] = [
     {
         key: "profile",
         label: "Profil",
-    },
-    {
+    }
+   /* {
         key: "password",
         label: "Mot de passe",
     },
@@ -21,7 +21,7 @@ const TABS: SettingTabs[] = [
     {
         key: "notifications",
         label: "Notifications",
-    }
+    }*/
 ]
 
 const DEFAULT_TAB = "profile";
