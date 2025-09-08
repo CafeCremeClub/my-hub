@@ -30,7 +30,7 @@ const MissionDetailsProfile = ({mission}: MissionDetailsPageData) => {
                 </div>
             </div>
 
-            <div className="flex flex-col gap-3">
+            {/*<div className="flex flex-col gap-3">
                 <p className="font-medium text-[#101828] tracking-tighter bricolage-grotesque">
                     Niveau d’expérience
                 </p>
@@ -40,7 +40,7 @@ const MissionDetailsProfile = ({mission}: MissionDetailsPageData) => {
                         Expert
                     </div>
                 </div>
-            </div>
+            </div>*/}
 
             <div className="flex flex-col gap-3">
                 <p className="font-medium text-[#101828] tracking-tighter bricolage-grotesque">

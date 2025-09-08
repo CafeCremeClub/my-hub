@@ -31,7 +31,7 @@ const MissionDetailsPageData = ({mission}: MissionDetailsPageDataProps) => {
                     currentTab === "profile" ? <MissionDetailsProfile mission={mission}/> : null
                 }
                 {
-                    currentTab === "client" ? <MissionDetailsClient/> : null
+                    currentTab === "client" ? <MissionDetailsClient mission={mission}/> : null
                 }
             </div>
 

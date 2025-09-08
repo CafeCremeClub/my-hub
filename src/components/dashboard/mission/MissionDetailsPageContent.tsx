@@ -23,7 +23,6 @@ const MissionDetailsPageContent = ({id}: MissionDetailsPageContentProps) => {
 
     return (
         <div className="flex flex-col gap-8 w-full h-full">
-            <MissionDetailsPageHeader/>
             {
                 isPending ? (
                     <LoadingBox/>
@@ -31,9 +30,13 @@ const MissionDetailsPageContent = ({id}: MissionDetailsPageContentProps) => {
                     <ErrorBox
                         message="Une erreur est survenue lors du chargement de la mission. Veuillez réessayer plus tard."/>
                 ) : mission ?
-                    <MissionDetailsPageData
-                        mission={mission}
-                    /> : (
+                    <>
+                        <MissionDetailsPageHeader mission={mission}/>
+                        <MissionDetailsPageData
+                            mission={mission}
+                        />
+                    </>
+                    : (
                         <NoDataBox
                             message="Mission non trouvée."
                         />
