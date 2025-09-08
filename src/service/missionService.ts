@@ -3,6 +3,7 @@ import {GetMissionsPayload} from "@/types/mission/GetMissionsPayload";
 import axiosInstance from "@/config/axiosInstance";
 import {GetMissionsApiResponse} from "@/types/mission/GetMissionsApiResponse";
 import {MissionDetails} from "@/types/mission/MissionDetails";
+import {ApplyForMissionPayload} from "@/types/mission/ApplyForMissionPayload";
 
 
 export const getMissions = async (payload: GetMissionsPayload): Promise<GetMissionsResponse> => {
@@ -37,6 +38,16 @@ export const getMissionById = async (id: string): Promise<MissionDetails> => {
     try {
         const response = await axiosInstance.get<MissionDetails>(`/missions/${id}`);
         return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const applyForMission = async (payload: ApplyForMissionPayload): Promise<void> => {
+    try {
+        await axiosInstance.post(`/applications/apply/${payload.missionId}`, {
+            note: payload.note
+        })
     } catch (error) {
         throw error;
     }

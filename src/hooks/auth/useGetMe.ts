@@ -7,7 +7,8 @@ const useGetMe = () => {
         queryKey: ["get-me"],
         queryFn: getMe,
         retry: 0,
-        refetchOnMount: false,
+        refetchOnMount: "always",
+        refetchOnWindowFocus: false,
         refetchInterval: false
     })
 
