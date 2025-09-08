@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from 'react';
+import React from 'react';
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Badge} from "@/components/ui/badge";
 import {ArrowDown} from "lucide-react";
@@ -10,19 +10,20 @@ import {MissionStatus} from "@/types/mission/MissionStatus";
 import {formatDateToFRFormat} from "@/utils/formatDateToFRFormat";
 import MissionTablePaginationControls from "@/components/dashboard/mission/MissionTablePaginationControls";
 import ErrorBox from "@/components/dashboard/ErrorBox";
-import {BsDatabaseFillSlash} from "react-icons/bs";
 import {useRouter} from "next/navigation";
 import NoDataBox from "@/components/dashboard/NoDataBox";
 
 interface MissionPageDataTableProps {
     page?: number;
     title?: string;
+    skills?: string[];
     setPage?: (page: number) => void;
 }
 
 const MissionPageDataTable = ({
                                   page = 1,
                                   title = "",
+                                  skills = [],
                                   setPage = () => {
                                   }
                               }
@@ -37,7 +38,8 @@ const MissionPageDataTable = ({
             data: missions
         } = useGetMissions({
             page,
-            title: title && title.trim() !== "" ? title : undefined
+            title: title && title.trim() !== "" ? title : undefined,
+            skills: skills && skills.length > 0 ? skills : undefined,
         });
 
         const handlePageChange = (newPage: number) => {

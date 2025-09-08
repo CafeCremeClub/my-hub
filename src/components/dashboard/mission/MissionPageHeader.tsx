@@ -6,30 +6,30 @@ import HouseIcon from "@/components/icons/HouseIcon";
 import CustomInput from "@/components/custom/CustomInput";
 import useGetMe from "@/hooks/auth/useGetMe";
 import {Skeleton} from "@/components/ui/skeleton";
+import CustomTagInputWithCustomValues from "@/components/custom/CustomTagInputWithCustomValues";
+import {skillOptions} from "@/utils/skillOptions";
 
 
 interface MissionPageHeaderProps {
     title?: string;
     setTitle?: (title: string) => void;
+    skills?: string[];
+    setSkills?: (skills: string[]) => void;
 }
 
 const MissionPageHeader = ({
                                title = "",
                                setTitle = () => {
-                               }
+                               },
+                               skills = [],
+                               setSkills = () => {
+                               },
                            }: MissionPageHeaderProps) => {
-
-    //const [temporaryTitle, setTemporaryTitle] = useState<string>(title);
 
     const {
         isPending,
         data
     } = useGetMe();
-
-    /*const onSearchClick = () => {
-        setTitle(temporaryTitle);
-    }*/
-
 
     return (
         <div className="flex flex-col gap-6 w-full">
@@ -56,9 +56,8 @@ const MissionPageHeader = ({
                     </p>
                 </div>
             </div>
-
-            <div className="flex flex-wrap items-center justify-between w-full gap-2.5">
-                <div className="flex items-center gap-2.5">
+            <div className="flex xl:flex-row flex-col gap-2.5 w-full">
+                <div className="md:w-72 flex-none">
                     <CustomInput
                         id="title"
                         name="title"
@@ -67,18 +66,18 @@ const MissionPageHeader = ({
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
-
-                    <CustomInput
-                        id="domain"
-                        name="domain"
-                        placeholder="Domaines de compétences"
-                    />
-
                 </div>
-                {/*<CustomButton
-                >
-                    Rechercher
-                </CustomButton>*/}
+
+                <div className="w-full">
+                    <CustomTagInputWithCustomValues
+                        id="skills"
+                        placeholder="Ex : React, Node.js, UX Design"
+                        maxItems={10}
+                        items={skillOptions}
+                        value={skills}
+                        onChange={(tags) => setSkills(tags)}
+                    />
+                </div>
             </div>
         </div>
     );

@@ -6,6 +6,7 @@ import {cn} from "@/lib/utils";
 
 interface CustomTagInputProps {
     maxItems?: number;
+    showMaxItemsText?: boolean;
     placeholder?: string;
     isError?: boolean;
     value?: string[];
@@ -15,6 +16,7 @@ interface CustomTagInputProps {
 
 const CustomTagInput = ({
                             maxItems = 3,
+                            showMaxItemsText = true,
                             placeholder,
                             isError = false,
                             value = [],
@@ -92,7 +94,10 @@ const CustomTagInput = ({
                     />
                 )}
             </div>
-            <p className="text-sm text-[#475467] mt-1">{maxItems} secteurs maximum</p>
+            {
+                showMaxItemsText ?
+                    <p className="text-sm text-[#475467] mt-1">{maxItems} secteurs maximum</p> : null
+            }
         </div>
     );
 };
