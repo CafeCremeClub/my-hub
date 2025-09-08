@@ -6,11 +6,13 @@ import Image from "next/image";
 import {defaultAvatar} from "../../../../public";
 import {TbCurrencyEuro} from "react-icons/tb";
 import FRIcon from "@/components/icons/FRIcon";
-import {ArrowUpRight, CircleAlert} from "lucide-react";
+import {ArrowUpRight} from "lucide-react";
 import PDFIcon from "@/components/icons/PDFIcon";
 import useGetMe from "@/hooks/auth/useGetMe";
 import ProfileSkeleton from "@/components/dashboard/profile/ProfileSkeleton";
 import ErrorBox from "@/components/dashboard/ErrorBox";
+import Link from "next/link";
+import {FiEdit} from "react-icons/fi";
 
 const ProfilePageContent = () => {
 
@@ -36,7 +38,8 @@ const ProfilePageContent = () => {
 
     return (
         <div className="grid grid-cols-8 gap-8">
-            <div className="col-span-8 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex items-center justify-between gap-6">
+            <div
+                className="col-span-8 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex xl:flex-row flex-col xl:items-center justify-between gap-6">
                 <div className="flex items-center gap-6">
                     <div className="size-[10rem] rounded-full border-4 border-white overflow-hidden flex-none">
                         <Image src={defaultAvatar} alt="User Profile Picture"
@@ -55,7 +58,8 @@ const ProfilePageContent = () => {
                     Modifier mon profil
                 </CustomButton>
             </div>
-            <div className="col-span-2 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex flex-col gap-6">
+            <div
+                className="col-span-8 lg:col-span-4 xl:col-span-2 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex flex-col gap-6">
                 <div className="flex flex-col gap-2">
                     <p className="text-4xl text-[#475467] font-semibold tracking-tighter bricolage-grotesque">
                         TJM
@@ -75,7 +79,7 @@ const ProfilePageContent = () => {
                     <div className="flex items-center gap-2">
                         <FRIcon/>
                         <p className="font-medium text-[#344054] tracking-tighter bricolage-grotesque">
-                            Paris, FRANCE
+                            {data.city}, {data.country.toUpperCase()}
                         </p>
                     </div>
                 </div>
@@ -84,12 +88,20 @@ const ProfilePageContent = () => {
                     <p className="text-sm font-medium text-[#475467]">
                         Linkedin
                     </p>
-                    <div className="flex items-center gap-2 cursor-pointer hover:underline">
-                        <p className="font-semibold text-[#004EEB] tracking-tighter bricolage-grotesque">
-                            jayawillis.com
-                        </p>
-                        <ArrowUpRight className="text-[#6941C6] size-5"/>
-                    </div>
+                    <Link
+                        href={data.linkedIn}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <div className="flex items-center gap-2 cursor-pointer hover:underline">
+                            <p className="font-semibold text-[#004EEB] tracking-tighter bricolage-grotesque">
+                                {
+                                    data.linkedIn.split("/").filter(Boolean).pop()
+                                }
+                            </p>
+                            <ArrowUpRight className="text-[#6941C6] size-5"/>
+                        </div>
+                    </Link>
                 </div>
 
                 <div className="flex flex-col gap-2">
@@ -98,7 +110,7 @@ const ProfilePageContent = () => {
                     </p>
                     <div className="flex items-center gap-2 cursor-pointer hover:underline">
                         <p className="font-semibold text-[#004EEB] tracking-tighter bricolage-grotesque">
-                            @jayawillis
+                            {data.whatsApp}
                         </p>
                         <ArrowUpRight className="text-[#6941C6] size-5"/>
                     </div>
@@ -116,42 +128,41 @@ const ProfilePageContent = () => {
                     </div>
                 </div>
             </div>
-            <div className="col-span-6 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex flex-col gap-8">
+            <div
+                className="col-span-8 lg:col-span-4 xl:col-span-6 rounded-3xl py-6 px-8 bg-[#F4F9FF] flex flex-col gap-8 h-max">
                 <div className="flex flex-col gap-5">
-                    <p className="text-[#101828] text-xl font-semibold tracking-tighter bricolage-grotesque">
-                        À propos de moi :
-                    </p>
+                    <div className="flex items-center justify-between gap-2">
+                        <p className="text-[#101828] text-xl font-semibold tracking-tighter bricolage-grotesque">
+                            À propos de moi :
+                        </p>
+                        <CustomButton
+                            className="size-9 bg-white border border-[#D0D5DD] hover:bg-[#D0D5DD]"
+                        >
+                            <FiEdit className="size-4 text-[#344054]"/>
+                        </CustomButton>
+                    </div>
                     <p className="text-[#475467] text-justify">
-                        I&#39;m a Product Designer based in Melbourne, Australia. I enjoy working on product design,
-                        design
-                        systems, and Webflow projects, but I don&#39;t take myself too seriously. <br/><br/>
-                        I’ve worked with some of the world’s most exciting companies, including Coinbase, Stripe, and
-                        Linear. I&#39;m passionate about helping startups grow, improve their UX and customer
-                        experience,
-                        and to raise venture capital through good design. <br/><br/>
-                        My work has been featured on Typewolf, Mindsparkle Magazine, Webflow, Fonts In Use, CSS Winner,
-                        httpster, Siteinspire, and Best Website Gallery.
+                        {
+                            data.bio ? data.bio : "Vous pouvez mettre en avant votre expérience, votre secteur d’activité ou vos compétences."
+                        }
                     </p>
                 </div>
                 <div className="flex flex-col gap-5">
                     <p className="text-[#101828] text-xl font-semibold tracking-tighter bricolage-grotesque">
                         CV :
                     </p>
-                    <div
-                        className="max-w-md flex items-start justify-between p-3.5 bg-white border border-[#EAECF0] rounded-[0.75rem]">
-                        <div className="flex items-center gap-3">
-                            <PDFIcon/>
-                            <div className="text-sm">
-                                <p className="text-[#344054]">Tech design requirements.pdf</p>
-                                <p className="text-[#475467]">200 KB – 100% uploaded</p>
+                    <Link href={data.cv} target="_blank" rel="noopener noreferrer">
+                        <div
+                            className="max-w-md flex items-start justify-between p-3.5 bg-white border border-[#EAECF0] rounded-[0.75rem]">
+                            <div className="flex items-center gap-3">
+                                <PDFIcon/>
+                                <div className="text-sm">
+                                    <p className="text-[#344054]">{data.firstname + " " + data.lastname + " CV"}.pdf</p>
+                                    <p className="text-[#475467]">100% uploaded</p>
+                                </div>
                             </div>
                         </div>
-                        <input
-                            type="checkbox"
-                            checked={true}
-                            readOnly
-                        />
-                    </div>
+                    </Link>
                 </div>
             </div>
         </div>
