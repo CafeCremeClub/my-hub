@@ -55,10 +55,16 @@ const Sidebar = () => {
 
     const [selectedRoute, setSelectedRoute] = useState<string>(routes[0].route);
 
-    const onRoutePress = (name: string) => {
+    const onRoutePress = (name: string, id?: number) => {
         /*if (isOpen && onClose) {
             onClose();
         }*/
+
+        if (id && id === 3) {
+            window.open("https://www.cafe-creme.club/nouvelle-communaute", "_blank");
+            return;
+        }
+
         setSelectedRoute(name)
         router.push(name);
     }
@@ -96,7 +102,7 @@ const Sidebar = () => {
                                         ? "bg-[#697194]"
                                         : "bg-transparent"
                                 }`}
-                                onClick={() => onRoutePress(route.route)}
+                                onClick={() => onRoutePress(route.route, route.id)}
                                 aria-label={route.name}
                             >
                                 {<route.icon width={16} height={16} stroke="#BCD8FF" className="shrink-0"/>}
