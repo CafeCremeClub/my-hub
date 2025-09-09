@@ -56,10 +56,12 @@ const UpdateProfileForm = ({data}: UpdateProfileFormProps) => {
         onSubmit: async (values) => {
             try {
                 await updateProfile(values);
-                await queryClient.invalidateQueries({
-                    queryKey: ["get-me"],
-                    type: "all",
-                    exact: true,
+                queryClient.setQueryData(["get-me"], (oldData: Profile) => {
+                    if (!oldData) return oldData;
+                    return {
+                        ...oldData,
+                        ...values
+                    };
                 });
                 toast.success("Profil mis à jour avec succès", {
                     description: "Vos informations ont été mises à jour.",

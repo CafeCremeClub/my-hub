@@ -41,8 +41,17 @@ const routes = [
     }
 ]
 
+interface SidebarProps {
+    isSheet?: boolean;
+    closeSheet?: () => void;
+}
 
-const Sidebar = () => {
+
+const Sidebar = ({
+                     isSheet = false,
+                     closeSheet = () => {
+                     }
+                 }: SidebarProps) => {
 
 
     const queryClient = useQueryClient();
@@ -56,10 +65,6 @@ const Sidebar = () => {
     const [selectedRoute, setSelectedRoute] = useState<string>(routes[0].route);
 
     const onRoutePress = (name: string, id?: number) => {
-        /*if (isOpen && onClose) {
-            onClose();
-        }*/
-
         if (id && id === 3) {
             window.open("https://www.cafe-creme.club/nouvelle-communaute", "_blank");
             return;
@@ -67,6 +72,10 @@ const Sidebar = () => {
 
         setSelectedRoute(name)
         router.push(name);
+
+        if (isSheet) {
+            closeSheet();
+        }
     }
 
     const handleLogout = async () => {

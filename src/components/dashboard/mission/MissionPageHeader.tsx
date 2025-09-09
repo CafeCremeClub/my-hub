@@ -57,7 +57,7 @@ const MissionPageHeader = ({
                 </div>
             </div>
             <div className="flex xl:flex-row flex-col gap-2.5 w-full">
-                <div className="md:w-72 flex-none">
+                <div className="xl:w-72 flex-none">
                     <CustomInput
                         id="title"
                         name="title"
