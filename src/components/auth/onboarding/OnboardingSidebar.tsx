@@ -12,20 +12,20 @@ import {useSearchParams} from "next/navigation";
 const steps = [
     {
         id: 1,
-        title: "Ton profil",
-        description: "Complète ton profil pour matcher avec les meilleures offres",
+        title: "Votre profil",
+        description: "Complète votre profil pour matcher avec les meilleures offres",
         icon: FiUser,
     },
     {
         id: 2,
         title: "Tes compétences",
-        description: "Ajoute tes compétences clés pour recevoir des missions adaptées à ton savoir-faire.",
+        description: "Ajoute tes compétences clés pour recevoir des missions adaptées à votre savoir-faire.",
         icon: TbUsersPlus
     },
     {
         id: 3,
         title: "Tes liens & contacts",
-        description: "Ajoute ton LinkedIn, WhatsApp et autres canaux pour faciliter les échanges",
+        description: "Ajoute votre LinkedIn, WhatsApp et autres canaux pour faciliter les échanges",
         icon: PiLinkSimpleBold
     }
 ]

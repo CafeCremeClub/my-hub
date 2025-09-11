@@ -25,6 +25,7 @@ interface CustomTagInputWithDropDownProps<T = unknown> {
     onChange?: (tags: string[]) => void;
     onBlur?: () => void;
     items: DropdownItem<T>[];
+    numberOfElementsMessage?: string
 }
 
 const CustomTagInputWithDropDown = <T = unknown, >({
@@ -35,6 +36,7 @@ const CustomTagInputWithDropDown = <T = unknown, >({
                                                        onChange,
                                                        onBlur,
                                                        items,
+                                                       numberOfElementsMessage,
                                                        ...props
                                                    }: CustomTagInputWithDropDownProps<T> & Omit<React.ComponentProps<"div">, keyof CustomTagInputWithDropDownProps<T>>) => {
     const [tags, setTags] = useState<string[]>(value);
@@ -156,7 +158,15 @@ const CustomTagInputWithDropDown = <T = unknown, >({
                     </Select>
                 )}
             </div>
-            <p className="text-sm text-[#475467] mt-1">{maxItems} secteurs maximum</p>
+            {
+                numberOfElementsMessage ?
+                    <p className="text-sm text-[#475467] mt-1">
+                        {numberOfElementsMessage}
+                    </p> :
+                    <p className="text-sm text-[#475467] mt-1">
+                        {maxItems} eléments maximum
+                    </p>
+            }
         </div>
     );
 };

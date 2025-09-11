@@ -26,6 +26,7 @@ interface CustomTagInputWithCustomValuesProps<T = unknown> {
     onBlur?: () => void;
     items: DropdownItem<T>[];
     allowCustomValues?: boolean;
+    numberOfElementsMessage?: string;
 }
 
 const CustomTagInputWithCustomValues = <T = unknown, >({
@@ -37,6 +38,7 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
                                                            onBlur,
                                                            items,
                                                            allowCustomValues = true,
+                                                           numberOfElementsMessage,
                                                            ...props
                                                        }: CustomTagInputWithCustomValuesProps<T> & Omit<React.ComponentProps<"div">, keyof CustomTagInputWithCustomValuesProps<T>>) => {
     const [tags, setTags] = useState<string[]>(value);
@@ -99,10 +101,10 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
     );
 
     const showAddCustomOption = allowCustomValues &&
-                                searchQuery.trim() &&
-                                !hasExactMatch &&
-                                !tags.includes(searchQuery.trim()) &&
-                                tags.length < maxItems;
+        searchQuery.trim() &&
+        !hasExactMatch &&
+        !tags.includes(searchQuery.trim()) &&
+        tags.length < maxItems;
 
     return (
         <div className="w-full" {...props}>
@@ -203,7 +205,15 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
                     </Select>
                 )}
             </div>
-            <p className="text-sm text-[#475467] mt-1">{maxItems} secteurs maximum</p>
+            {
+                numberOfElementsMessage ?
+                    <p className="text-sm text-[#475467] mt-1">
+                        {numberOfElementsMessage}
+                    </p> :
+                    <p className="text-sm text-[#475467] mt-1">
+                        {maxItems} eléments maximum
+                    </p>
+            }
         </div>
     );
 };

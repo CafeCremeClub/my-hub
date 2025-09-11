@@ -144,10 +144,15 @@ const OnboardingStepTwo = () => {
                         <CustomInput
                             id="tjm"
                             name="tjm"
+                            type="number"
                             placeholder="Ex : 400€"
                             leftIcon={<ImCoinEuro/>}
                             value={formik.values.tjm}
-                            onChange={formik.handleChange}
+                            onChange={(e) => {
+                                // Only allow numeric values
+                                const value = e.target.value.replace(/[^0-9]/g, '');
+                                formik.setFieldValue('tjm', value);
+                            }}
                             onBlur={formik.handleBlur}
                             isError={formik.touched.tjm && formik.errors.tjm !== undefined}
                         />
@@ -186,6 +191,7 @@ const OnboardingStepTwo = () => {
                             id="industry"
                             placeholder="Ex : Marketing, Finance, IT"
                             maxItems={3}
+                            numberOfElementsMessage={`3 secteurs maximum`}
                             items={industryOptions}
                             value={formik.values.industry}
                             onChange={(tags) => formik.setFieldValue('industry', tags)}
@@ -207,6 +213,7 @@ const OnboardingStepTwo = () => {
                             id="desiredJobs"
                             placeholder="Ex : Développeur, Designer, Chef de projet"
                             maxItems={3}
+                            numberOfElementsMessage={`3 métiers maximum`}
                             items={jobOptions}
                             value={formik.values.desiredJobs}
                             onChange={(tags) => formik.setFieldValue('desiredJobs', tags)}
@@ -229,6 +236,7 @@ const OnboardingStepTwo = () => {
                             id="skills"
                             placeholder="Ex : React, Node.js, UX Design"
                             maxItems={5}
+                            numberOfElementsMessage={`5 compétences maximum`}
                             items={skillOptions}
                             value={formik.values.skills}
                             onChange={(tags) => formik.setFieldValue('skills', tags)}

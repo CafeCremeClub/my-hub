@@ -12,7 +12,6 @@ import useGetMe from "@/hooks/auth/useGetMe";
 import ProfileSkeleton from "@/components/dashboard/profile/ProfileSkeleton";
 import ErrorBox from "@/components/dashboard/ErrorBox";
 import Link from "next/link";
-import {FiEdit} from "react-icons/fi";
 import {useRouter} from "next/navigation";
 
 const ProfilePageContent = () => {
@@ -108,7 +107,7 @@ const ProfilePageContent = () => {
                                     data.linkedIn.split("/").filter(Boolean).pop()
                                 }
                             </p>
-                            <ArrowUpRight className="text-[#6941C6] size-5"/>
+                            <ArrowUpRight className="text-[#6941C6] size-5 flex-none"/>
                         </div>
                     </Link>
                 </div>
@@ -121,7 +120,7 @@ const ProfilePageContent = () => {
                         <p className="font-semibold text-[#004EEB] tracking-tighter bricolage-grotesque">
                             {data.whatsApp}
                         </p>
-                        <ArrowUpRight className="text-[#6941C6] size-5"/>
+                        <ArrowUpRight className="text-[#6941C6] size-5 flex-none"/>
                     </div>
                 </div>
 
@@ -144,12 +143,6 @@ const ProfilePageContent = () => {
                         <p className="text-[#101828] text-xl font-semibold tracking-tighter bricolage-grotesque">
                             À propos de moi :
                         </p>
-                        <CustomButton
-                            className="size-9 bg-white border border-[#D0D5DD] hover:bg-[#D0D5DD]"
-                            onClick={handleEditClick}
-                        >
-                            <FiEdit className="size-4 text-[#344054]"/>
-                        </CustomButton>
                     </div>
                     <p className="text-[#475467] text-justify">
                         {
