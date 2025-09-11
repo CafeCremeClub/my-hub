@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {cn} from "@/lib/utils";
 import {
     Select,
@@ -42,6 +42,17 @@ const CustomSelectWithDropDown = <T = unknown, >({
                                                  }: CustomSelectWithDropDownProps<T> & Omit<React.ComponentProps<"div">, keyof CustomSelectWithDropDownProps<T>>) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // Auto focus search input when dropdown opens
+    useEffect(() => {
+        if (isOpen && searchInputRef.current) {
+            // Use setTimeout to ensure the input is rendered before focusing
+            setTimeout(() => {
+                searchInputRef.current?.focus();
+            }, 0);
+        }
+    }, [isOpen]);
 
     const handleSelectValue = (selectedKey: string) => {
         onChange?.(selectedKey);
@@ -112,11 +123,11 @@ const CustomSelectWithDropDown = <T = unknown, >({
                     <SelectContent className="p-0">
                         <div className="p-2 border-b">
                             <Input
+                                ref={searchInputRef}
                                 placeholder="Search..."
                                 value={searchQuery}
                                 onChange={handleSearchChange}
                                 className="h-8 text-sm"
-                                autoFocus
                                 onKeyDown={(e) => {
                                     // Prevent the Select from closing when typing in search
                                     e.stopPropagation();

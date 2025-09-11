@@ -83,7 +83,7 @@ const OnboardingStepTwo = () => {
             const cityItems = response.features
                 .map((feature) => ({
                     key: feature.properties.id,
-                    label: feature.properties.label,
+                    label: `${feature.properties.postcode} ${feature.properties.city}`,
                     value: `${feature.properties.label}__${feature.properties.id}`
                 }));
 
@@ -282,6 +282,7 @@ const OnboardingStepTwo = () => {
                             acceptedFormats={["SVG", "PNG", "JPG", "JPEG", "PDF"]}
                             maxSize={50}
                             onFileUpload={(file) => formik.setFieldValue('cv', file)}
+                            onFileDelete={() => formik.setFieldValue('cv', null)}
                             isError={formik.touched.cv && formik.errors.cv !== undefined}
                         />
                         {formik.touched.cv && formik.errors.cv && (

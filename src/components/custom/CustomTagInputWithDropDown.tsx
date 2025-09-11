@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {cn} from "@/lib/utils";
 import {
     Select,
@@ -42,11 +42,22 @@ const CustomTagInputWithDropDown = <T = unknown, >({
     const [tags, setTags] = useState<string[]>(value);
     const [searchQuery, setSearchQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const searchInputRef = useRef<HTMLInputElement>(null);
 
     // Sync internal state with external value
     useEffect(() => {
         setTags(value);
     }, [value]);
+
+    // Auto focus search input when dropdown opens
+    useEffect(() => {
+        if (isOpen && searchInputRef.current) {
+            // Use setTimeout to ensure the input is rendered before focusing
+            setTimeout(() => {
+                searchInputRef.current?.focus();
+            }, 0);
+        }
+    }, [isOpen]);
 
     const updateTags = (newTags: string[]) => {
         setTags(newTags);
@@ -78,7 +89,7 @@ const CustomTagInputWithDropDown = <T = unknown, >({
         <div className="w-full" {...props}>
             <div
                 className={cn(
-                    "flex flex-wrap min-h-[2.75rem] items-center gap-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
+                    "flex flex-col min-h-[2.75rem] gap-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
                     tags.length > 0 ? "py-2" : "py-0",
                     isError
                         ? "border border-[#DF1C41] focus:border-[#DF1C41]"
@@ -98,7 +109,7 @@ const CustomTagInputWithDropDown = <T = unknown, >({
                             <button
                                 type="button"
                                 onClick={() => removeTag(index)}
-                                className="ml-2 text-[#98A2B3] hover:text-gray-700 cursor-pointer text-xs"
+                                className="ml-auto text-[#98A2B3] hover:text-gray-700 cursor-pointer text-xs"
                             >
                                 ✕
                             </button>
@@ -114,7 +125,7 @@ const CustomTagInputWithDropDown = <T = unknown, >({
                         value=""
                     >
                         <SelectTrigger
-                            className="border-none shadow-none p-0 h-auto min-w-[120px] flex-1 bg-transparent focus:ring-0 focus:ring-offset-0"
+                            className="w-full border-none shadow-none p-0 h-auto min-w-[120px] flex-1 bg-transparent focus:ring-0 !ring-0 focus:ring-offset-0"
                             onBlur={onBlur}
                         >
                             <SelectValue placeholder={placeholder} className="text-sm text-gray-400"/>
@@ -122,11 +133,11 @@ const CustomTagInputWithDropDown = <T = unknown, >({
                         <SelectContent className="p-0">
                             <div className="p-2 border-b">
                                 <Input
+                                    ref={searchInputRef}
                                     placeholder="Search..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="h-8 text-sm"
-                                    autoFocus
                                     onKeyDown={(e) => {
                                         // Prevent the Select from closing when typing in search
                                         e.stopPropagation();

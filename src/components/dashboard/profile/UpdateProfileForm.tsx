@@ -25,7 +25,9 @@ const validationSchema = Yup.object({
     profession: Yup.string().required("Le poste est requis"),
     linkedIn: Yup.string().required("Le profil LinkedIn est requis"),
     whatsApp: Yup.string().required("Le numéro WhatsApp est requis"),
-    bio: Yup.string().required("La bio est requise").max(MAX_BIO_LENGTH, `La bio ne peut pas dépasser ${MAX_BIO_LENGTH} caractères`),
+    bio: Yup.string()
+        .max(MAX_BIO_LENGTH, `La bio ne peut pas dépasser ${MAX_BIO_LENGTH} caractères`)
+        .notRequired(),
     skills: Yup.array().min(1, "Au moins une compétence est requise").required("Les compétences sont requises")
 });
 

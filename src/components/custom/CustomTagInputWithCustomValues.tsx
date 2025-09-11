@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {cn} from "@/lib/utils";
 import {
     Select,
@@ -44,6 +44,17 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
     const [tags, setTags] = useState<string[]>(value);
     const [searchQuery, setSearchQuery] = useState("");
     const [isOpen, setIsOpen] = useState(false);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // Auto focus search input when dropdown opens
+    useEffect(() => {
+        if (isOpen && searchInputRef.current) {
+            // Use setTimeout to ensure the input is rendered before focusing
+            setTimeout(() => {
+                searchInputRef.current?.focus();
+            }, 0);
+        }
+    }, [isOpen]);
 
     // Sync internal state with external value
     useEffect(() => {
@@ -110,7 +121,7 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
         <div className="w-full" {...props}>
             <div
                 className={cn(
-                    "flex flex-wrap min-h-[2.75rem] items-center gap-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
+                    "flex flex-col min-h-[2.75rem] gap-2 px-3.5 bg-white rounded-[0.5rem] shadow-sm shadow-[#1018280D]",
                     tags.length > 0 ? "py-2" : "py-0",
                     isError
                         ? "border border-[#DF1C41] focus:border-[#DF1C41]"
@@ -130,7 +141,7 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
                             <button
                                 type="button"
                                 onClick={() => removeTag(index)}
-                                className="ml-2 text-[#98A2B3] hover:text-gray-700 cursor-pointer text-xs"
+                                className="ml-auto text-[#98A2B3] hover:text-gray-700 cursor-pointer text-xs"
                             >
                                 ✕
                             </button>
@@ -146,7 +157,7 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
                         value=""
                     >
                         <SelectTrigger
-                            className="border-none shadow-none p-0 h-auto min-w-[120px] flex-1 bg-transparent focus:ring-0 focus:ring-offset-0"
+                            className="w-full border-none shadow-none p-0 h-auto min-w-[120px] flex-1 bg-transparent !ring-0 focus:ring-0 focus:ring-offset-0"
                             onBlur={onBlur}
                         >
                             <SelectValue placeholder={placeholder} className="text-sm text-gray-400"/>
@@ -154,11 +165,11 @@ const CustomTagInputWithCustomValues = <T = unknown, >({
                         <SelectContent className="p-0">
                             <div className="p-2 border-b">
                                 <Input
+                                    ref={searchInputRef}
                                     placeholder="Search or type to add..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="h-8 text-sm"
-                                    autoFocus
                                     onKeyDown={(e) => {
                                         // Handle Enter key for custom values
                                         handleKeyDown(e);
