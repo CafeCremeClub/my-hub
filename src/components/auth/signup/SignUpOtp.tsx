@@ -11,6 +11,8 @@ import {toast} from "sonner";
 import {handleSignUpError} from "@/utils/helpers/handleSignUpError";
 import {SignUpResponse} from "@/types/auth/SignUpResponse";
 import CustomErrorIndicator from "@/components/custom/CustomErrorIndicator";
+import useSendOtp from "@/hooks/auth/useSendOtp";
+import {handleSendOTPError} from "@/utils/helpers/handleSendOTPError";
 
 interface SignUpOtpProps {
     email: string;
@@ -23,6 +25,11 @@ const SignUpOtp = ({email, onNext}: SignUpOtpProps) => {
         isPending,
         mutateAsync
     } = useSignUp();
+
+    const {
+        isPending: isOtpSending,
+        mutateAsync: sendOtp
+    } = useSendOtp();
 
     const validationSchema = Yup.object({
         otp: Yup.string()
@@ -61,6 +68,36 @@ const SignUpOtp = ({email, onNext}: SignUpOtpProps) => {
             }
         },
     });
+
+    const handleResendOtp = async () => {
+        if (!email) {
+            toast.error("Adresse email manquante", {
+                description: "Impossible de renvoyer le code OTP sans adresse email.",
+                position: "bottom-right",
+                className: "!bg-[#DF1C41] !text-white",
+                descriptionClassName: "!text-white !text-xs"
+            });
+            return;
+        }
+
+        try {
+            await sendOtp({email});
+            toast.success("Code OTP renvoyé", {
+                description: "Un nouveau code OTP a été envoyé à votre adresse e-mail.",
+                position: "bottom-right",
+                className: "!bg-[#CBF5E5] !text-[#176448] !border !border-[#CBF5E5]",
+                descriptionClassName: "!text-[#176448] !text-xs"
+            });
+        } catch (error) {
+            const errorMessage = handleSendOTPError(error);
+            toast.error("Échec de l'envoi du code OTP", {
+                description: errorMessage,
+                position: "bottom-right",
+                className: "!bg-[#DF1C41] !text-white",
+                descriptionClassName: "!text-white !text-xs"
+            });
+        }
+    }
 
     return (
         <div className="z-10 flex flex-col gap-8 w-full md:w-[27.5rem]">
@@ -110,8 +147,16 @@ const SignUpOtp = ({email, onNext}: SignUpOtpProps) => {
             </form>
 
             <div className="flex justify-center items-center gap-1 text-sm text-[#475467]">
-                <p>Pas reçu l’email ?</p> <b className="text-[#2970FF] cursor-pointer hover:underline">Renvoyer le
-                code</b>
+                <p>Pas reçu l’email ?</p>
+                <CustomButton
+                    className="text-[#2970FF] px-0 bg-transparent shadow-none border-none hover:underline hover:bg-transparent"
+                    onClick={handleResendOtp}
+                    disabled={isOtpSending}
+                >
+                    {
+                        isOtpSending ? "Renvoyer..." : "Renvoyer le code"
+                    }
+                </CustomButton>
             </div>
         </div>
     );

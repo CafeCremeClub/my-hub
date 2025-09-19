@@ -128,10 +128,10 @@ const OnboardingStepTwo = () => {
             </div>
             <div className="flex flex-col items-center gap-3">
                 <p className="text-2xl font-semibold tracking-tighter bricolage-grotesque text-center">
-                    Renseigne tes compétences et tes préférences de mission
+                    Renseignez vos compétences et vos préférences de mission
                 </p>
                 <p className="text-center text-[#475467]">
-                    Indique tes compétences clés et le type de missions que tu préfères.
+                    Indiquez vos compétences clés et le type de missions que vous préférez
                 </p>
             </div>
 

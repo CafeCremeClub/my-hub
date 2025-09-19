@@ -79,7 +79,7 @@ const OnboardingStepOne = () => {
                 </div>
                 <div className="flex flex-col items-center gap-3">
                     <p className="text-2xl font-semibold tracking-tighter bricolage-grotesque ">
-                        Complète ton profil
+                        Complétez votre profil
                     </p>
                     <p className="text-center text-[#475467]">
                         Une communauté, des opportunités, et un réseau qui fait la différence.

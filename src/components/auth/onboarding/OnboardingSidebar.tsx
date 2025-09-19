@@ -18,13 +18,13 @@ const steps = [
     },
     {
         id: 2,
-        title: "Tes compétences",
-        description: "Ajoute tes compétences clés pour recevoir des missions adaptées à votre savoir-faire.",
+        title: "Vos compétences",
+        description: "Ajoute vos compétences clés pour recevoir des missions adaptées à votre savoir-faire.",
         icon: TbUsersPlus
     },
     {
         id: 3,
-        title: "Tes liens & contacts",
+        title: "Vos liens et contacts",
         description: "Ajoute votre LinkedIn, WhatsApp et autres canaux pour faciliter les échanges",
         icon: PiLinkSimpleBold
     }

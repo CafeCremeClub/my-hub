@@ -105,10 +105,10 @@ const OnboardingStepThree = () => {
             </div>
             <div className="flex flex-col items-center gap-3">
                 <p className="text-2xl font-semibold tracking-tighter bricolage-grotesque text-center">
-                    Tes liens & contacts
+                    Vos liens & contacts
                 </p>
                 <p className="text-center text-[#475467]">
-                    Facilite les échanges en ajoutant tes canaux de communication préférés.
+                    Facilitez les échanges en ajoutant vos canaux de communication préférés.
                 </p>
             </div>
 
