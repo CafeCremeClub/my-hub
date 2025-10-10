@@ -1,1 +1,1 @@
-export type SettingTabsKey = "profile" | "password" | "email" | "notifications";
+export type SettingTabsKey = 'profile' | 'password' | 'email' | 'notifications';

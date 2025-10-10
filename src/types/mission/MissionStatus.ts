@@ -1,4 +1,4 @@
 export enum MissionStatus {
-    OPEN = 'open',
-    CLOSED = 'closed',
+  OPEN = 'open',
+  CLOSED = 'closed',
 }

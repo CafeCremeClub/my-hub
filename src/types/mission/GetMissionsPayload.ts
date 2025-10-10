@@ -1,6 +1,6 @@
 export interface GetMissionsPayload {
-    page?: number;
-    perPage?: number;
-    title?: string;
-    skills?: string[];
+  page?: number;
+  perPage?: number;
+  title?: string;
+  skills?: string[];
 }

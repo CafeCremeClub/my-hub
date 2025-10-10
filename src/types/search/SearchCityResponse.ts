@@ -1,8 +1,7 @@
-import {SearchGeoFeature} from "@/types/search/SearchGeoFeature";
-
+import { SearchGeoFeature } from '@/types/search/SearchGeoFeature';
 
 export interface SearchCityResponse {
-    type: string;
-    features: SearchGeoFeature[];
-    query: string;
+  type: string;
+  features: SearchGeoFeature[];
+  query: string;
 }

@@ -1,5 +1,5 @@
 export interface SearchCityParams {
-    q: string;
-    limit: number;
-    autocomplete: number;
+  q: string;
+  limit: number;
+  autocomplete: number;
 }
