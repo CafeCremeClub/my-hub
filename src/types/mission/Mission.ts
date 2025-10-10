@@ -10,6 +10,7 @@ export interface Mission {
   industry: Industry[];
   link: string;
   whatsApp: string;
+  linkedIn?: string;
   companyBio: string;
   status: MissionStatus;
   createdAt: string;

@@ -10,6 +10,7 @@ export interface MissionDetails {
   industry: Industry[];
   link: string;
   whatsApp: string;
+  linkedIn?: string;
   companyBio: string;
   status: MissionStatus;
   applied: boolean;
