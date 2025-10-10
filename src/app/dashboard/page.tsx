@@ -1,10 +1,8 @@
 import React from 'react';
-import MissionPageContent from "@/components/dashboard/mission/MissionPageContent";
+import MissionPageContent from '@/components/dashboard/mission/MissionPageContent';
 
 const DashboardPage = () => {
-    return (
-        <MissionPageContent/>
-    );
+  return <MissionPageContent />;
 };
 
 export default DashboardPage;

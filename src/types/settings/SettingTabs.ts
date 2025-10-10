@@ -1,7 +1,6 @@
-import {SettingTabsKey} from "@/types/settings/SettingTabsKey";
-
+import { SettingTabsKey } from '@/types/settings/SettingTabsKey';
 
 export interface SettingTabs {
-    key: SettingTabsKey;
-    label: string;
+  key: SettingTabsKey;
+  label: string;
 }

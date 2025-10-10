@@ -1,1 +1,1 @@
-export type MissionTabsKey = "overview" | "profile" | "client"
+export type MissionTabsKey = 'overview' | 'profile' | 'client';

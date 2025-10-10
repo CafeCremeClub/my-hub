@@ -1,22 +1,19 @@
 import React from 'react';
-import MissionDetailsOverview from "@/components/dashboard/mission/MissionDetailsOverview";
-import {MissionDetails} from "@/types/mission/MissionDetails";
+import MissionDetailsOverview from '@/components/dashboard/mission/MissionDetailsOverview';
+import { MissionDetails } from '@/types/mission/MissionDetails';
 
 interface MissionDetailsPageDataProps {
-    mission: MissionDetails
+  mission: MissionDetails;
 }
 
-const MissionDetailsPageData = ({mission}: MissionDetailsPageDataProps) => {
-
-
-    return (
-        <div className="flex flex-col gap-8 w-full h-full">
-            <div className="h-full">
-                <MissionDetailsOverview mission={mission}/>
-            </div>
-
-        </div>
-    );
+const MissionDetailsPageData = ({ mission }: MissionDetailsPageDataProps) => {
+  return (
+    <div className="flex flex-col gap-8 w-full h-full">
+      <div className="h-full">
+        <MissionDetailsOverview mission={mission} />
+      </div>
+    </div>
+  );
 };
 
 export default MissionDetailsPageData;

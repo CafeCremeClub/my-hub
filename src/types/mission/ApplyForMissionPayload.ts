@@ -1,4 +1,4 @@
 export interface ApplyForMissionPayload {
-    missionId: string;
-    note?: string;
+  missionId: string;
+  note?: string;
 }
