@@ -22,10 +22,10 @@ const MissionDetailsPageContent = ({ id }: MissionDetailsPageContentProps) => {
       ) : isError ? (
         <ErrorBox message="Une erreur est survenue lors du chargement de la mission. Veuillez réessayer plus tard." />
       ) : mission ? (
-        <>
+        <div className="flex flex-col gap-8 pb-8">
           <MissionDetailsPageHeader mission={mission} />
           <MissionDetailsPageData mission={mission} />
-        </>
+        </div>
       ) : (
         <NoDataBox message="Mission non trouvée." />
       )}
