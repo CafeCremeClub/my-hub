@@ -3,9 +3,11 @@ import {MissionDetails} from '@/types/mission/MissionDetails';
 import CustomButton from '@/components/custom/CustomButton';
 import {FaCircle} from 'react-icons/fa6';
 import ApplyForMissionDialog from '@/components/dashboard/mission/ApplyForMissionDialog';
-import useGetCurrentSubscription from "@/hooks/payment/useGetCurrentSubscription";
+// PAYMENT DISABLED - subscription check commented out until paid plan is re-enabled
+// import useGetCurrentSubscription from "@/hooks/payment/useGetCurrentSubscription";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
-import {useRouter} from "next/navigation";
+// PAYMENT DISABLED - router no longer needed without payment redirect
+// import {useRouter} from "next/navigation";
 
 interface MissionDetailsPageHeaderProps {
     mission: MissionDetails;
@@ -15,9 +17,9 @@ const MissionDetailsPageHeader = ({
                                       mission,
                                   }: MissionDetailsPageHeaderProps) => {
 
-    const {isPending, isError} = useGetCurrentSubscription();
-
-    const router = useRouter();
+    // PAYMENT DISABLED - subscription check commented out until paid plan is re-enabled
+    // const {isPending, isError} = useGetCurrentSubscription();
+    // const router = useRouter();
 
     const [isApplyDialogOpen, setIsApplyDialogOpen] = React.useState(false);
 
@@ -64,25 +66,28 @@ const MissionDetailsPageHeader = ({
                         <TooltipTrigger asChild>
                             <CustomButton
                                 onClick={() => {
-                                    if (isError) {
-                                        router.push('/dashboard/settings?tab=payment');
-                                        return;
-                                    }
+                                    // PAYMENT DISABLED - subscription gate removed; all consultants can apply for free
+                                    // if (isError) {
+                                    //     router.push('/dashboard/settings?tab=payment');
+                                    //     return;
+                                    // }
                                     setIsApplyDialogOpen(true)
                                 }}
-                                isLoading={isPending}
+                                // PAYMENT DISABLED - loading state tied to subscription fetch removed
+                                // isLoading={isPending}
                                 className="min-w-40"
                             >
                                 Postuler directement
                             </CustomButton>
                         </TooltipTrigger>
-                        <TooltipContent
+                        {/* PAYMENT DISABLED - subscription error tooltip commented out */}
+                        {/* <TooltipContent
                             className={!isError ? 'hidden' : ''}
                         >
                             <p>
                                 Vous devez avoir un abonnement actif pour postuler à cette mission.
                             </p>
-                        </TooltipContent>
+                        </TooltipContent> */}
                     </Tooltip>
                 </div>
             </div>

@@ -10,10 +10,11 @@ const TABS: SettingTabs[] = [
         key: 'profile',
         label: 'Profil',
     },
-    {
-        key: 'payment',
-        label: 'Paiement',
-    }
+    // PAYMENT DISABLED - payment tab hidden until paid plan is re-enabled
+    // {
+    //     key: 'payment',
+    //     label: 'Paiement',
+    // }
 ];
 
 const DEFAULT_TAB = 'profile';

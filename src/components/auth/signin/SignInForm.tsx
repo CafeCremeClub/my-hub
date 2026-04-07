@@ -74,7 +74,7 @@ const SignInForm = () => {
             code: values.otp,
           });
 
-          if (response.user.role === UserRole.ADMIN) {
+          if (response.user.role === UserRole.ADMIN || response.user.role === UserRole.COMPANY) {
             toast.error('Échec de la connexion', {
               description:
                 'Vous n’êtes pas autorisé à accéder à cette application.',
