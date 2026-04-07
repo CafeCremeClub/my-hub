@@ -5,7 +5,8 @@ import {useSearchParams} from 'next/navigation';
 import SettingsTabs from '@/components/dashboard/settings/SettingsTabs';
 import {SettingTabsKey} from '@/types/settings/SettingTabsKey';
 import SettingsProfileContent from '@/components/dashboard/settings/SettingsProfileContent';
-import SettingsPaymentContent from "@/components/dashboard/settings/SettingsPaymentContent";
+// PAYMENT DISABLED - SettingsPaymentContent commented out until paid plan is re-enabled
+// import SettingsPaymentContent from "@/components/dashboard/settings/SettingsPaymentContent";
 
 const SettingsPageContent = () => {
     const searchParams = useSearchParams();
@@ -24,7 +25,8 @@ const SettingsPageContent = () => {
 
             <div className="h-full">
                 {currentTab === 'profile' ? <SettingsProfileContent/> : null}
-                {currentTab === 'payment' ? <SettingsPaymentContent/> : null}
+                {/* PAYMENT DISABLED - payment tab content commented out until paid plan is re-enabled */}
+                {/* {currentTab === 'payment' ? <SettingsPaymentContent/> : null} */}
             </div>
         </div>
     );
