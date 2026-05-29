@@ -49,10 +49,12 @@ fonctionnel.
 - **Modifications minimales et sûres** ; respecter les conventions ci-dessus.
 - **Jamais de secrets/credentials réels** en clair ni en commit — variables d'env par **nom seul**.
 - Marquer toute incertitude par **`⚠️ INCERTAIN : …`** plutôt que de combler par hypothèse.
-- Les fichiers `.env*` sont gitignored ; ne pas les committer.
+- Les fichiers `.env*` sont gitignored **sauf `.env.example`** (template sans secret, versionné).
+  Ne jamais committer `.env.local` ni mettre de vraie valeur dans `.env.example`.
 
 ## Variables d'environnement (noms uniquement)
-- `NEXT_PUBLIC_BASE_URL` — base de l'API REST MyHub.
+- Setup local : `cp .env.example .env.local` puis renseigner les valeurs.
+- `NEXT_PUBLIC_BASE_URL` — base de l'API REST MyHub. **Requise** (auth, OTP, missions, profil…).
 - `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — clé publique Stripe (seulement si paiement réactivé).
 
 ## Zones d'incertitude connues à lever

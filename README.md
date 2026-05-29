@@ -118,16 +118,22 @@ Navigateur (React 19 / Next.js App Router)
 - **npm** (un `package-lock.json` est présent → projet géré avec npm).
 
 ### Variables d'environnement
-Aucun `.env.example` n'est fourni. Les variables consommées par le code (par **nom uniquement**,
-jamais de valeurs) :
+Un template **`.env.example`** est versionné à la racine (sans valeur). Variables consommées par
+le code (par **nom uniquement**, jamais de valeurs) :
 
 | Variable                             | Usage                                                        |
 | ------------------------------------ | ------------------------------------------------------------ |
-| `NEXT_PUBLIC_BASE_URL`               | URL de base de l'API REST MyHub (`src/config/axiosInstance.ts`). |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Clé publique Stripe (`src/context/StripeContext.tsx`). Requise uniquement si le paiement est réactivé — **actuellement désactivé**. |
+| `NEXT_PUBLIC_BASE_URL`               | URL de base de l'API REST MyHub (`src/config/axiosInstance.ts`). **Requise.** |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Clé publique Stripe (`src/context/StripeContext.tsx`). Optionnelle, lue uniquement si le paiement est réactivé — **actuellement désactivé**. |
 
-Créer un fichier `.env.local` à la racine et y renseigner ces variables. Les fichiers `.env*`
-sont ignorés par Git (voir `.gitignore`).
+Pour configurer l'environnement local :
+
+```bash
+cp .env.example .env.local   # puis renseigner les valeurs
+```
+
+`.env.local` est ignoré par Git ; seul `.env.example` (sans secret) est versionné — voir le
+`.gitignore` (`.env*` ignoré, `!.env.example` ré-inclus).
 
 ### Étapes
 
