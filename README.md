@@ -25,6 +25,11 @@ MyHub permet à un freelance de :
 **Public visé** : uniquement les utilisateurs de rôle `USER`. Les rôles `ADMIN` et `COMPANY`
 sont explicitement **refusés** à la connexion (voir `src/components/auth/signin/SignInForm.tsx`).
 
+> ℹ️ **Accès par liste blanche** : le backend n'envoie un OTP qu'aux emails **whitelistés**.
+> Un email non autorisé reçoit l'erreur `EmailNotAllowedForSignup` (gérée dans
+> `src/utils/helpers/handleSendOTPError.ts`). L'ajout d'un email à la whitelist se fait depuis
+> le **back-office** (repo `my-hub-backoffice`, page « Utilisateurs autorisés »).
+
 > ⚠️ INCERTAIN : la gestion d'**abonnement payant (Stripe)** existe dans le code mais est
 > **actuellement désactivée** (voir commit `9144687` « Disable payment features… until paid plan
 > is re-enabled »). L'onglet « Paiement » et le wrapper Stripe sont commentés.

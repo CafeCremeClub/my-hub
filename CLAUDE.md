@@ -33,6 +33,7 @@ fonctionnel.
 ## Où vivent les choses importantes
 - **Config API / auth Axios** : `src/config/axiosInstance.ts` (base `NEXT_PUBLIC_BASE_URL` + intercepteur Bearer).
 - **Gardes de routes / redirections** : `src/middleware.ts` (lit cookies `token`, `should-complete-onboarding`, `should-complete-user-info`, `should-complete-profile-info`).
+- **Contrôle d'accès** : (1) **liste blanche backend** — l'OTP n'est envoyé qu'aux emails whitelistés ; sinon erreur `EmailNotAllowedForSignup` (`src/utils/helpers/handleSendOTPError.ts`), whitelist gérée côté back-office. (2) **rôle** — seul `USER` (1) accède ; `ADMIN`/`COMPANY` refusés dans `SignInForm.tsx`. Les erreurs métier backend arrivent en **HTTP 500** avec `{name, message}`, discriminées via `error.response.data.name`.
 - **Gestion des cookies (token)** : `src/app/actions/` (`saveCookies`, `getTokenFromCookies`, `logout`, …) — Server Actions.
 - **Providers globaux** : `src/app/layout.tsx` (React Query, Onboarding ; **Stripe commenté/désactivé**).
 - **Intégrations externes** :
