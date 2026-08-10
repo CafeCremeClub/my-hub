@@ -1,4 +1,5 @@
 import React from 'react';
+import { NON_COMMUNIQUE } from '@/lib/mission-origin';
 import { MissionDetails } from '@/types/mission/MissionDetails';
 
 interface MissionDetailsPageData {
@@ -18,7 +19,10 @@ const MissionDetailsProfile = ({ mission }: MissionDetailsPageData) => {
           Domaine d’invervention
         </p>
         <div className="flex flex-wrap gap-3">
-          {mission.industry.map((industry, index) => (
+          {!mission.industry?.length && (
+            <p className="text-xs text-[#667085] italic">{NON_COMMUNIQUE}</p>
+          )}
+          {(mission.industry ?? []).map((industry, index) => (
             <div
               key={index}
               className="rounded-[0.375rem] px-2 py-0.75 border border-[#D0D5DD] bg-white text-xs text-[#344054]"
@@ -46,7 +50,10 @@ const MissionDetailsProfile = ({ mission }: MissionDetailsPageData) => {
           Compétences
         </p>
         <div className="flex flex-wrap gap-3">
-          {mission.skills.map((skill, index) => (
+          {!mission.skills?.length && (
+            <p className="text-xs text-[#667085] italic">{NON_COMMUNIQUE}</p>
+          )}
+          {(mission.skills ?? []).map((skill, index) => (
             <div
               key={index}
               className="rounded-[0.375rem] px-2 py-0.75 border border-[#D0D5DD] bg-white text-xs text-[#344054]"
