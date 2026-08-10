@@ -3,6 +3,7 @@ import {MissionDetails} from '@/types/mission/MissionDetails';
 import CustomButton from '@/components/custom/CustomButton';
 import {FaCircle} from 'react-icons/fa6';
 import ApplyForMissionDialog from '@/components/dashboard/mission/ApplyForMissionDialog';
+import {actionDeContact, libelleEntreprise} from '@/lib/mission-origin';
 // PAYMENT DISABLED - subscription check commented out until paid plan is re-enabled
 // import useGetCurrentSubscription from "@/hooks/payment/useGetCurrentSubscription";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
@@ -24,6 +25,7 @@ const MissionDetailsPageHeader = ({
     const [isApplyDialogOpen, setIsApplyDialogOpen] = React.useState(false);
 
     const client = mission.client?.trim();
+    const contact = actionDeContact(mission);
     const combinedLabel = client ? `${mission.title} • ${client}` : mission.title;
 
     return (
@@ -53,7 +55,7 @@ const MissionDetailsPageHeader = ({
                         </>
                     )}
                     <span className="sr-only">
-            {client ? ` — Client : ${client}` : ''}
+            {client ? ` — ${libelleEntreprise(mission)} : ${client}` : ''}
           </span>
                 </h1>
                 <div className="flex items-center gap-3">
@@ -62,6 +64,17 @@ const MissionDetailsPageHeader = ({
                         <FaCircle className="size-2.5 text-[#17B26A]"/>
                         {mission.applications || 0} candidats
                     </div>
+                    {/* Sur une mission reperee ailleurs, Cafe Creme ne peut pas
+                        recevoir la candidature : elle ne lui appartient pas. La
+                        seule action honnete est de renvoyer vers l'annonce. */}
+                    {contact.type === 'annonce' ? (
+                        <CustomButton
+                            onClick={() => window.open(contact.url, '_blank', 'noopener,noreferrer')}
+                            className="min-w-40"
+                        >
+                            Voir l’annonce
+                        </CustomButton>
+                    ) : (
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <CustomButton
@@ -89,6 +102,7 @@ const MissionDetailsPageHeader = ({
                             </p>
                         </TooltipContent> */}
                     </Tooltip>
+                    )}
                 </div>
             </div>
         </>

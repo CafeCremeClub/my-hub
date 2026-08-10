@@ -27,6 +27,11 @@ export const getMissions = async (
         link: mission.props.link,
         whatsApp: mission.props.whatsApp,
         companyBio: mission.props.companyBio,
+        // L'origine décide de tout l'affichage : libellé de l'entreprise,
+        // action de contact, badge. Sans elle le front ne peut pas distinguer
+        // une mission du réseau d'une annonce repérée ailleurs.
+        source: mission.props.source ?? null,
+        sourceUrl: mission.props.sourceUrl ?? null,
         status: mission.props.status,
         createdAt: mission.createdAt,
         updatedAt: mission.updatedAt,

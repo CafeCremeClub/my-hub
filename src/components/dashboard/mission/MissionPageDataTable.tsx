@@ -19,6 +19,8 @@ import MissionTablePaginationControls from '@/components/dashboard/mission/Missi
 import ErrorBox from '@/components/dashboard/ErrorBox';
 import { useRouter } from 'next/navigation';
 import NoDataBox from '@/components/dashboard/NoDataBox';
+import MissionOriginBadge from '@/components/dashboard/mission/MissionOriginBadge';
+import { NON_COMMUNIQUE, tjmAffiche } from '@/lib/mission-origin';
 
 interface MissionPageDataTableProps {
   page?: number;
@@ -68,13 +70,16 @@ const MissionPageDataTable = ({
                 Mission <ArrowDown className="size-4" />
               </TableHead>
               <TableHead className="text-xs font-medium text-[#475467] min-w-40">
-                Client
+                Entreprise
               </TableHead>
               <TableHead className="text-xs font-medium text-[#475467] min-w-40">
                 TJM
               </TableHead>
               <TableHead className="text-xs font-medium text-[#475467] min-w-40">
                 Contrat
+              </TableHead>
+              <TableHead className="text-xs font-medium text-[#475467] min-w-40">
+                Origine
               </TableHead>
               <TableHead className="text-xs font-medium text-[#475467] min-w-40">
                 Publié le
@@ -98,10 +103,16 @@ const MissionPageDataTable = ({
                   {mission.title}
                 </TableCell>
                 <TableCell className="text-[#101828] text-sm">
-                  {mission.client}
+                  {mission.client?.trim() || NON_COMMUNIQUE}
                 </TableCell>
-                <TableCell className="text-[#101828] text-sm">
-                  {mission.tjm}
+                <TableCell
+                  className={
+                    tjmAffiche(mission) === NON_COMMUNIQUE
+                      ? 'text-[#667085] text-sm italic'
+                      : 'text-[#101828] text-sm'
+                  }
+                >
+                  {tjmAffiche(mission)}
                 </TableCell>
                 <TableCell>
                   <Badge
@@ -118,6 +129,9 @@ const MissionPageDataTable = ({
                   >
                     {mission.status === MissionStatus.OPEN ? 'Ouvert' : 'Fermé'}
                   </Badge>
+                </TableCell>
+                <TableCell>
+                  <MissionOriginBadge mission={mission} />
                 </TableCell>
                 <TableCell className="text-[#101828] text-sm">
                   {formatDateToFRFormat(mission.createdAt)}
